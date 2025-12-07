@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 const formatCurrency = (value) =>
   new Intl.NumberFormat(undefined, {
