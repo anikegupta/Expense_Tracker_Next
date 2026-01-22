@@ -1,4 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 💰 Expense Tracker Application
+
+![React](https://img.shields.io/badge/React-Frontend-blue)
+![Node.js](https://img.shields.io/badge/Node.js-Backend-green)
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-brightgreen)
+![API](https://img.shields.io/badge/REST-API-orange)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
+A full-stack expense management application designed to track income and expenses with accurate calculations and real-time balance updates.
+
+---
+
+## 🔍 Project Overview
+The Expense Tracker helps users record, organize, and monitor financial transactions efficiently. It ensures accurate data handling and improves personal finance management through a clean and intuitive interface.
+
+---
+
+## 🚀 Key Features
+- Add, edit, and delete income & expenses
+- Real-time balance calculation
+- Organized transaction history
+- Responsive and intuitive UI
+- Secure backend data handling
+
+---
+
+## 🛠 Tech Stack
+- **Frontend:** React.js, HTML5, CSS3, JavaScript  
+- **Backend:** Node.js, Express.js  
+- **Database:** MongoDB  
+- **Tools:** Git, GitHub  
+
+---
+
+## ⚙️ Application Workflow
+- RESTful APIs for transaction management
+- CRUD operations with database persistence
+- Optimized state management
+
+---
+
+## 🎯 Skills Demonstrated
+- React state management
+- Backend API development
+- Database integration
+- Problem-solving and debugging
+
+---
+
+## 📌 Future Enhancements
+- Monthly expense analytics
+- Charts and reports
+- Data export functionality
+
 
 ## Getting Started
 
