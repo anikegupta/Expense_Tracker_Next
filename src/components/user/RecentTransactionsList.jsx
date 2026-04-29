@@ -4,7 +4,7 @@ import { formatCurrency, formatDate } from "../../utils/formatters.js";
 
 export default function RecentTransactionsList({ items = [], currency = "INR" }) {
   if (!items.length) {
-    return <div className="text-sm text-gray-500">No recent transactions</div>;
+    return <div className="text-sm text-gray-900">No recent transactions</div>;
   }
 
   return (
@@ -13,7 +13,7 @@ export default function RecentTransactionsList({ items = [], currency = "INR" })
         const isCash = (tx.paymentmethod || "").toLowerCase() === "cash";
         return (
           <li key={tx.id} className="py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3 min-w-0">
+            <div className="flex items-center gap-3 min-w-0 text-gray-900">
               <div
                 className={`h-9 w-9 rounded-lg flex items-center justify-center ${
                   isCash ? "bg-amber-50 text-amber-600" : "bg-indigo-50 text-indigo-600"
@@ -27,7 +27,7 @@ export default function RecentTransactionsList({ items = [], currency = "INR" })
               </div>
             </div>
             <div className="text-right">
-              <div className="text-sm font-semibold">{formatCurrency(tx.amount, currency)}</div>
+              <div className="text-sm font-semibold text-gray-900">{formatCurrency(tx.amount, currency)}</div>
               <div className="text-xs text-gray-500">
                 {formatDate(tx.date)} · {tx.paymentmethod}
               </div>

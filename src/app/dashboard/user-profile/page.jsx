@@ -86,8 +86,8 @@ const UserProfile = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col items-center py-10 px-4">
       {/* Profile Card */}
-      <div className="bg-white/10 backdrop-blur-lg shadow-lg rounded-2xl p-6 w-full max-w-lg flex flex-col items-center">
-        <div className="relative group">
+      <div className="bg-white/10 backdrop-blur-lg shadow-lg rounded-2xl p-6 w-full max-w-lg flex flex-col items-center ">
+        <div className="relative group cursor-pointer">
           {form.avatar ? (
             <img
               src={form.avatar}
@@ -153,7 +153,7 @@ const UserProfile = () => {
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition cursor-pointer"
             >
               Edit Profile
             </button>

@@ -13,6 +13,7 @@ import { BiLogOut, BiMenu } from "react-icons/bi";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthContext } from "../context/AuthContext";
+import { Wallet } from "lucide-react";
 
 function SideMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +26,7 @@ function SideMenu() {
     { name: "View Expense", icon: <FaListUl />, path: "/dashboard/expenses" },
     { name: "Assistant", icon: <FaRobot />, path: "/dashboard/assistant" },
     { name: "Recycle Bin", icon: <MdDelete />, path: "/dashboard/recycle-bin" },
+    { name: "Hidden Expenses", icon: <Wallet />, path: "/dashboard/hidden-expenses" },
   ];
 
   return (

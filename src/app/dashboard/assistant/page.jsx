@@ -136,7 +136,7 @@ const ChatAssistant = () => {
       <div className="px-4 sm:px-6 py-3 border-b flex items-center justify-between">
         <div className="flex items-center gap-3 min-w-0">
           <div className="h-10 w-10 rounded-xl bg-indigo-600 text-white grid place-items-center ring-1 ring-indigo-400/50">
-            <AiFillRobot className="h-5 w-5" />
+            <AiFillRobot className="h-5 w-5 cursor-pointer" />
           </div>
           <div className="min-w-0">
             <div className="text-sm font-semibold text-gray-900 truncate">
@@ -261,7 +261,7 @@ const ChatAssistant = () => {
           <button
             onClick={sendMessage}
             disabled={!input.trim()}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400/50 transition hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed mb-5"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400/50 transition hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed mb-5 cursor-pointer"
             title="Send"
             aria-label="Send message"
           >

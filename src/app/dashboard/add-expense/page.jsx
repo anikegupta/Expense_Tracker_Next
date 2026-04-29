@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { createExpense } from "@/services/ExpenseService";
 import { toast } from "react-toastify";
-import { Button, Label, TextInput, Textarea, Select, ToggleSwitch } from "flowbite-react";
+import { Button, Label, TextInput, Textarea, Select } from "flowbite-react";
 import { MdOutlineCurrencyRupee, MdTitle, MdPayment } from "react-icons/md";
 import { motion } from "framer-motion";
 
@@ -52,7 +52,7 @@ const AddExpense = () => {
     <motion.div
       initial={{ y: 6, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="flex items-center justify-center min-h-screen bg-gray-50 px-4"
+      className="flex items-center justify-center min-h-screen bg-gray-150 px-4"
     >
       <div className="w-full max-w-md rounded-2xl border-t-4 border-blue-900 backdrop-blur p-8 shadow-lg overflow-hidden bg-white">
         {/* Header */}
@@ -80,7 +80,7 @@ const AddExpense = () => {
               value={formData.title}
               onChange={handleChange}
               placeholder="Enter expense title"
-              icon={MdTitle}
+              // icon={MdTitle}
               required
               shadow
             />
@@ -95,12 +95,11 @@ const AddExpense = () => {
               name="rs"
               value={formData.rs}
               onChange={handleChange}
-              placeholder="0"
-              icon={MdOutlineCurrencyRupee}
+              // icon={MdOutlineCurrencyRupee}
               min={0}
               step="1"
               required
-              shadow
+              
             />
             <p className="mt-1 text-xs text-gray-500">
               You will spend: <span className="font-semibold">{previewAmount}</span>
@@ -130,19 +129,35 @@ const AddExpense = () => {
             </div>
           </div>
 
-          {/* Hidden Toggle */}
+          {/* Visibility radio buttons */}
           <div>
             <Label>Visibility</Label>
-            <div className="mt-1 flex items-center justify-between rounded-xl border border-gray-200 px-3 py-2">
+            <div className="mt-1 rounded-xl border border-gray-200 px-3 py-3 bg-white">
               <span className="text-sm text-gray-600">Mark as Hidden</span>
-              <ToggleSwitch
-                checked={formData.hidden}
-                label=""
-                border="none"
-                onChange={(val) =>
-                  setFormData((prev) => ({ ...prev, hidden: val }))
-                }
-              />
+              <div className="mt-3 flex items-center gap-4">
+                <label className="inline-flex items-center gap-2 text-gray-700">
+                  <input
+                    type="radio"
+                    name="hidden"
+                    value="true"
+                    checked={formData.hidden === true}
+                    onChange={() => setFormData((prev) => ({ ...prev, hidden: true }))}
+                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  Hidden
+                </label>
+                <label className="inline-flex items-center gap-2 text-gray-700">
+                  <input
+                    type="radio"
+                    name="hidden"
+                    value="false"
+                    checked={formData.hidden === false}
+                    onChange={() => setFormData((prev) => ({ ...prev, hidden: false }))}
+                    className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                  />
+                  Visible
+                </label>
+              </div>
             </div>
           </div>
 

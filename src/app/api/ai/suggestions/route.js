@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { geminiClient } from '@/lib/config/geminiClient';
+import { groqClient } from '@/lib/config/geminiClient';
+import { connectDB } from '@/lib/mongodb';
 import { getExpenseData } from '@/lib/utils/expenseHelper';
 import { authMiddleware } from '@/middleware/auth';
 
@@ -7,7 +8,8 @@ async function getSuggestionsHandler(req) {
   try {
     const userId = req.userId;
     console.log('Fetching suggestions for user:', userId);
-    
+
+    await connectDB();
     const data = await getExpenseData(userId);
 
     const systemPrompt = `
@@ -37,16 +39,25 @@ Now return an object matching this schema:
 }
 `;
 
-    const responseText = await geminiClient.generate({
+    const responseText = await groqClient.generate({
       prompt: userPrompt,
       systemPrompt,
     });
 
-    // Try to extract JSON
-    const jsonMatch = responseText.match(/{[\s\S]*}/);
-    if (!jsonMatch) throw new Error("Gemini did not return JSON");
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error("Gemini suggestion output:", responseText);
+      throw new Error("Gemini did not return valid JSON");
+    }
 
-    const result = JSON.parse(jsonMatch[0]);
+    let result;
+    try {
+      result = JSON.parse(jsonMatch[0]);
+    } catch (parseError) {
+      console.error("Failed to parse Gemini JSON:", jsonMatch[0]);
+      throw new Error("Failed to parse JSON returned by Gemini");
+    }
+
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error in getSuggestions:", error);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getDashboardData } from "@/services/AIService";
 import { useAuthContext } from "@/context/AuthContext";
 import DayWiseSpendChart from "@/components/user/DayWiseSpendChart";
@@ -32,15 +32,18 @@ export default function UserHome() {
     loadingDashboardData,
     setLoadingDashboardData,
   } = useAuthContext();
+  const [dashboardError, setDashboardError] = useState(null);
 
   useEffect(() => {
     async function loadDashboardData() {
       try {
         const data = await getDashboardData();
         setDashboardData(data);
+        setDashboardError(null);
         console.log("Dashboard data loaded:", data);
       } catch (error) {
         console.error("Failed to load dashboard data:", error);
+        setDashboardError(error.message || "Unable to load dashboard data.");
       } finally {
         setLoadingDashboardData(false);
       }
@@ -52,8 +55,19 @@ export default function UserHome() {
     }
   }, [dashboardData, loadingDashboardData, setDashboardData, setLoadingDashboardData]);
 
-  if (loadingDashboardData || !dashboardData) {
+  if (loadingDashboardData) {
     return <DashboardSkeleton />;
+  }
+
+  if (!dashboardData) {
+    return (
+      <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto py-10">
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-rose-700">
+          <h2 className="text-xl font-semibold mb-2">Unable to load dashboard</h2>
+          <p>{dashboardError || "Please check your network connection or try again later."}</p>
+        </div>
+      </div>
+    );
   }
 
   const data = dashboardData;
@@ -138,7 +152,7 @@ export default function UserHome() {
       </div>
 
       {/* Charts: Day-wise spend (Line) + Payment methods (Donut) */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-4 text-gray-900">
         <motion.div
           className="xl:col-span-2 rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-5 shadow-sm"
           initial={{ opacity: 0, y: 8 }}
@@ -162,7 +176,7 @@ export default function UserHome() {
         </motion.div>
 
         <motion.div
-          className="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-5 shadow-sm"
+          className="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-5 shadow-sm "
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.05 }}
@@ -178,7 +192,7 @@ export default function UserHome() {
 
       {/* Bar Chart: Daily totals */}
       <motion.div
-        className="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-5 shadow-sm mt-4"
+        className="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-5 shadow-sm mt-4 text-gray-900"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, delay: 0.08 }}
@@ -200,7 +214,7 @@ export default function UserHome() {
       </motion.div>
 
       {/* Recent Transactions + Action */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4 text-gray-900">
         <motion.div
           className="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-5 lg:col-span-2 shadow-sm"
           initial={{ opacity: 0, y: 8 }}

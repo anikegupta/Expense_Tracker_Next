@@ -5,7 +5,7 @@ import { getExpenses, getSortedExpenses } from "../../../services/ExpenseService
 import { toast } from "react-toastify";
 import { MdInfo } from "react-icons/md";
 import ExpenseView from "@/components/user/ExpenseView";
-import { Button, TextInput, Label, Datepicker } from "flowbite-react";
+import { TextInput, Label, Datepicker } from "flowbite-react";
 
 function ViewExpenses() {
   const [expenses, setExpenses] = useState([]);
@@ -117,7 +117,7 @@ function ViewExpenses() {
   };
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen bg-gray-150 p-4">
            {/* search bar */}
       <div className="flex gap-3 flex-wrap mb-4">
         <input
@@ -136,7 +136,7 @@ function ViewExpenses() {
       <div className="filter_container items-center flex justify-between gap-2 py-2 mb-4">
         <div className="flex gap-2 flex-wrap">
           <div className="flex flex-col">
-            <span className="text-black-600 px-1 text-xs font-semibold">Select min price</span>
+            <span className="text-gray-500 px-1 text-xs font-semibold">Select min price</span>
             <TextInput
               onChange={(e) => {
                 setFilters({
@@ -156,7 +156,7 @@ function ViewExpenses() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-black-600 px-1 text-xs font-semibold">Select max price</span>
+            <span className="text-gray-500 px-1 text-xs font-semibold">Select max price</span>
             <TextInput
               onChange={(e) => {
                 setFilters({
@@ -177,7 +177,7 @@ function ViewExpenses() {
           </div>
 
           <div className="flex flex-col">
-            <span className="text-black-600 px-1 text-xs font-semibold">From Date</span>
+            <span className="text-gray-500 px-1 text-xs font-semibold">From Date</span>
             <input
               type="date"
               onChange={(e) => {
@@ -191,7 +191,7 @@ function ViewExpenses() {
           </div>
 
           <div className="flex flex-col">
-            <span className="text-black-600 px-1 text-xs font-semibold">To Date</span>
+            <span className="text-gray-500 px-1 text-xs font-semibold">To Date</span>
             <input
               type="date"
               onChange={(e) => {
@@ -205,12 +205,20 @@ function ViewExpenses() {
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Button onClick={applyFilter} className="cursor-pointer" size="sm" color={"green"}>
+          <button
+            type="button"
+            onClick={applyFilter}
+            className="cursor-pointer rounded bg-green-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-green-700"
+          >
             Apply Filter
-          </Button>
-          <Button onClick={clearFilter} className="cursor-pointer" size="sm" color={"red"}>
+          </button>
+          <button
+            type="button"
+            onClick={clearFilter}
+            className="cursor-pointer rounded bg-red-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700"
+          >
             Clear Filter
-          </Button>
+          </button>
         </div>
       </div>
 
@@ -239,11 +247,15 @@ function ViewExpenses() {
       {!loading && expenses.length <= 0 && (
         <div className="flex flex-col justify-center mt-10 items-center gap-2">
           <MdInfo className="text-red-400" size={38} />
-          <h1 className="text-center text-3xl font-semibold">No expenses available</h1>
-          <p className="text-gray-500">Try creating some expenses or check your filters</p>
-          <Button onClick={loadExpense} className="mt-4 cursor-pointer">
+          <h1 className="text-center text-3xl font-semibold text-gray-500">No expenses available</h1>
+          <p className="text-gray-600">Try creating some expenses or check your filters</p>
+          <button
+            type="button"
+            onClick={loadExpense}
+            className="mt-4 cursor-pointer rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700"
+          >
             Refresh Expenses
-          </Button>
+          </button>
         </div>
       )}
     </div>

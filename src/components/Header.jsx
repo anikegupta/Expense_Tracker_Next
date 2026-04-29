@@ -39,8 +39,8 @@ export default function Header() {
           {/* Desktop Menu */}
           <nav className="hidden md:flex space-x-6">
             <Link href="/dashboard" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Dashboard</Link>
-            <Link href="/reports" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Reports</Link>
-            <Link href="/categories" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Categories</Link>
+            <Link href="/about" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">About</Link>
+            <Link href="/feedback" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Feedback</Link>
             <Link href="/settings" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Settings</Link>
           </nav>
 
@@ -83,8 +83,8 @@ export default function Header() {
         </div>
         <div className="flex flex-col items-start px-6 space-y-4">
           <Link href="/dashboard" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-          <Link href="/reports" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Reports</Link>
-          <Link href="/categories" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Categories</Link>
+          <Link href="/about" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>About</Link>
+          <Link href="/feedback" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Feedback</Link>
           <Link href="/settings" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Settings</Link>
           {/* Mobile Auth */}
           {!user ? (

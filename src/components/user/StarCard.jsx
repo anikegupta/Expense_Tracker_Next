@@ -13,12 +13,12 @@ export default function StatCard({ icon, title, value, subtitle, trendIcon, acce
         {icon}
       </div>
       <div className="mt-3">
-        <div className="text-xs text-gray-500">{title}</div>
+        <div className="text-xs text-gray-900">{title}</div>
         <div className="flex items-center gap-2">
-          <div className="text-xl font-semibold">{value}</div>
+          <div className="text-xl font-semibold text-gray-900">{value}</div>
           {trendIcon}
         </div>
-        {subtitle ? <div className="text-xs text-gray-500 mt-1">{subtitle}</div> : null}
+        {subtitle ? <div className="text-xs text-gray-900 mt-1">{subtitle}</div> : null}
       </div>
     </motion.div>
   );

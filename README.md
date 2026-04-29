@@ -71,5 +71,18 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
+## 🔐 Environment Variables
+Create a `.env.local` file in the project root and set your MongoDB connection string there.
+
+```bash
+cp .env.local.example .env.local
+```
+
+Then update `MONGO_URI` with your Atlas DNS connection string, for example:
+
+```env
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/expense-database?retryWrites=true&w=majority
+```
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

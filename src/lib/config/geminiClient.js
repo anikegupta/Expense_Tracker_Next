@@ -1,41 +1,65 @@
-import axios from "axios";
+import Groq from "groq-sdk";
 
-const GEMINI_KEY = process.env.GEMINI_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY || process.env.GEMINI_KEY;
 
-const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const groqClientInstance = new Groq({
+  apiKey: GROQ_API_KEY,
+});
 
-export const geminiClient = {
-  generate: async ({ prompt, systemPrompt = "", key = GEMINI_KEY }) => {
+const extractTextFromResponse = (response) => {
+  const choice = response?.choices?.[0];
+  if (!choice) return null;
+
+  const content = choice.message?.content;
+  if (typeof content === "string") {
+    return content.trim();
+  }
+
+  if (Array.isArray(content)) {
+    return content
+      .map((part) => (typeof part === "string" ? part : part?.text ?? ""))
+      .join("")
+      .trim();
+  }
+
+  return typeof content?.text === "string"
+    ? content.text.trim()
+    : null;
+};
+
+export const groqClient = {
+  generate: async ({ prompt, systemPrompt = "" }) => {
+    if (!GROQ_API_KEY) {
+      throw new Error("Missing GROQ_API_KEY environment variable");
+    }
+
+    const messages = [];
+    if (systemPrompt) {
+      messages.push({ role: "system", content: systemPrompt.trim() });
+    }
+    messages.push({ role: "user", content: prompt });
+
     try {
-      const finalPrompt = systemPrompt
-        ? `${systemPrompt.trim()}\n\nUser Query:\n${prompt}`
-        : prompt;
+      const response = await groqClientInstance.chat.completions.create({
+        model: "openai/gpt-oss-20b",
+        messages,
+        temperature: 0.2,
+        max_tokens: 512,
+      });
 
-      const response = await axios.post(
-        GEMINI_API_URL,
-        {
-          contents: [{ parts: [{ text: finalPrompt }] }],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-goog-api-key": key,
-          },
-        }
-      );
-
-      const text =
-        response.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-
+      const text = extractTextFromResponse(response);
       if (!text) {
-        throw new Error("No response text from Gemini");
+        console.error("Groq raw response:", JSON.stringify(response, null, 2));
+        throw new Error("No response text from Groq");
       }
 
       return text;
     } catch (error) {
-      console.error("Gemini API error:", error.response?.data || error.message);
-      throw new Error("Gemini request failed: " + (error.response?.data?.error?.message || error.message));
+      console.error("Groq API error:", error);
+      const message =
+        error?.message ||
+        (error?.response?.data?.error?.message ?? "Unknown Groq error");
+      throw new Error(`Groq request failed: ${message}`);
     }
   },
 };
