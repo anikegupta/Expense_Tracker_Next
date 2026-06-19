@@ -37,11 +37,11 @@ export default function Header() {
           </div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden md:flex space-x-10">
             <Link href="/dashboard" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Dashboard</Link>
             <Link href="/about" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">About</Link>
             <Link href="/feedback" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Feedback</Link>
-            <Link href="/settings" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Settings</Link>
+            {/* <Link href="/settings" className="text-white hover:text-gray-200 transition-transform transform hover:scale-105 duration-200">Settings</Link> */}
           </nav>
 
           {/* Desktop Auth Section */}
@@ -85,7 +85,7 @@ export default function Header() {
           <Link href="/dashboard" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Dashboard</Link>
           <Link href="/about" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>About</Link>
           <Link href="/feedback" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Feedback</Link>
-          <Link href="/settings" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Settings</Link>
+          {/* <Link href="/settings" className="text-white hover:text-gray-200 transition" onClick={() => setMenuOpen(false)}>Settings</Link> */}
           {/* Mobile Auth */}
           {!user ? (
             <>

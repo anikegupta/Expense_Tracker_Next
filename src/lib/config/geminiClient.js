@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY || process.env.GEMINI_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 const groqClientInstance = new Groq({
   apiKey: GROQ_API_KEY,
