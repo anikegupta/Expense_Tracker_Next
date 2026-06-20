@@ -25,6 +25,7 @@ async function getHandler(req) {
 
     let filter = {
       hidden: false,
+      isDeleted: false,
       userId: userId,
     };
 
