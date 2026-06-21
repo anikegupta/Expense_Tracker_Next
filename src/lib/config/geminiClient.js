@@ -41,7 +41,7 @@ export const groqClient = {
 
     try {
       const response = await groqClientInstance.chat.completions.create({
-        model: "openai/gpt-oss-20b",
+        model: "openai/Llama 3.1 8B",
         messages,
         temperature: 0.2,
         max_tokens: 512,

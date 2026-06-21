@@ -310,7 +310,8 @@ export default function RecycleBin() {
   );
 
   return (
-    <div className="p-4 md:p-6 max-w-7xl mx-auto bg-white border-t-4 border-blue-900 rounded-2xl bg-zinc-100 min-h-screen overflow-x-auto hover:scale-102">
+    <div className="min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 p-4 md:p-6 text-gray-900">
+      <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Recycle Bin</h1>
@@ -631,6 +632,7 @@ export default function RecycleBin() {
       </div>
 
       <ToastContainer position="bottom-center" closeOnClick newestOnTop limit={1} />
+      </div>
     </div>
   );
 }

@@ -51,68 +51,71 @@ export default function Signup() {
   const passwordMismatch = formData.confirmPassword && formData.password !== formData.confirmPassword;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
-      <div className="w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] shadow-2xl rounded-2xl p-10 bg-zinc-100 border-t-4 border-blue-900 hover:scale-102">
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800 hover:scale-102">
-          Sign Up Here
-        </h1>
-        
-        {/* Display API validation errors */}
-        {errors.length > 0 && (
-          <div className="py-3">
-            {errors.map((error, idx) => (
-              <div key={idx} className="p-2 border-red-300 mb-2 border rounded">
-                <p className="text-red-400">{error.property.toUpperCase()}: {error.errorValue}</p>
-              </div>
-            ))}
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 px-4">
+      <form noValidate onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] p-8 shadow-2xl backdrop-blur-xl">
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white">
+              Sign Up Here
+            </h1>
+            <p className="text-slate-300 text-sm mt-2">Create your account to get started</p>
           </div>
-        )}
-        
-        <form noValidate onSubmit={handleSubmit}>
+
+          {/* Display API validation errors */}
+          {errors.length > 0 && (
+            <div className="space-y-2">
+              {errors.map((error, idx) => (
+                <div key={idx} className="p-4 rounded-3xl border border-rose-500/30 bg-rose-500/15">
+                  <p className="text-rose-200 text-sm">{error.property.toUpperCase()}: {error.errorValue}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
           {/* Username */}
           <div>
-            <label className="block text-gray-700 mb-1">Username</label>
+            <label className="text-lg font-medium text-slate-200">Username</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-white"
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Enter your username"
               required
             />
           </div>
 
           {/* Email */}
-          <div className="mt-2">
-            <label className="block text-gray-700 mb-1">Email</label>
+          <div>
+            <label className="text-lg font-medium text-slate-200">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-white"
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Enter your email"
               required
             />
           </div>
 
           {/* Password */}
-          <div className="mt-2 relative">
-            <label className="block text-gray-700 mb-1">Password</label>
+          <div className="relative">
+            <label className="text-lg font-medium text-slate-200">Password</label>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10 text-gray-900 bg-white"
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 pr-12"
               placeholder="Enter your password"
               required
             />
 
             {/* Eye icon */}
             <span
-              className="absolute right-3 top-[38px] cursor-pointer text-gray-600 hover:text-blue-600 select-none"
+              className="absolute right-4 top-[52px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
               onMouseDown={() => setShowPassword(true)}
               onMouseUp={() => setShowPassword(false)}
               onMouseLeave={() => setShowPassword(false)}
@@ -128,21 +131,21 @@ export default function Signup() {
           </div>
 
           {/* Confirm Password */}
-          <div className="mt-2 relative">
-            <label className="block text-gray-700 mb-1">Confirm Password</label>
+          <div className="relative">
+            <label className="text-lg font-medium text-slate-200">Confirm Password</label>
             <input
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10 text-gray-900 bg-white"
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 pr-12"
               placeholder="Confirm your password"
               required
             />
 
             {/* Eye icon */}
             <span
-              className="absolute right-3 top-[38px] cursor-pointer text-gray-600 hover:text-blue-600 select-none"
+              className="absolute right-4 top-[52px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
               onMouseDown={() => setShowConfirmPassword(true)}
               onMouseUp={() => setShowConfirmPassword(false)}
               onMouseLeave={() => setShowConfirmPassword(false)}
@@ -158,43 +161,43 @@ export default function Signup() {
             
             {/* Password mismatch warning */}
             {passwordMismatch && (
-              <p className="text-red-500 text-sm mt-1">Passwords do not match</p>
+              <p className="text-rose-300 text-sm mt-2">Passwords do not match</p>
             )}
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-center gap-2 mt-4">
-            <button
-              type="submit"
-              disabled={creating}
-              className="bg-blue-700 text-white px-4 rounded py-2 hover:bg-blue-600 transition hover:scale-105 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {creating ? "Creating..." : "Sign Up"}
-            </button>
+          <div className="flex gap-4 justify-between pt-2">
             <button
               type="button"
               disabled={creating}
-              className="bg-orange-700 text-white px-4 rounded py-2 hover:bg-orange-600 transition hover:scale-105 cursor-pointer disabled:opacity-50"
+              className="flex-1 inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-md font-semibold text-white transition hover:bg-red-700 disabled:opacity-60"
               onClick={() => setFormData({ username: "", email: "", password: "", confirmPassword: "" })}
             >
               Reset
+            </button>
+            <button
+              type="submit"
+              disabled={creating}
+              className="flex-1 inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
+            >
+              {creating ? "Creating..." : "Sign Up"}
             </button>
           </div>
 
           {/* Login redirect line */}
           <div className="flex justify-center mt-4">
-            <p className="text-gray-600 text-sm">
+            <p className="text-slate-300 text-sm">
               Already have an account?{" "}
               <span
                 onClick={() => router.push("/login")}
-                className="text-indigo-600 hover:underline cursor-pointer font-medium"
+                className="text-cyan-400 hover:text-cyan-300 cursor-pointer font-medium transition"
               >
                 Login
               </span>
             </p>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

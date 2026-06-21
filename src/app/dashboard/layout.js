@@ -29,12 +29,12 @@ function DashboardLayout({ children }) {
   }, [router]);
 
   return (  
-    <div className="">
+    <div className="bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 min-h-screen">
       {/* Sidebar */}
       <SideMenu />
 
       {/* Main content */}
-      <main className="mt-16 md:p-10 ">
+      <main className="mt-16 md:p-10">
         {children}
       </main>
     </div>

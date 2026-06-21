@@ -17,6 +17,7 @@ import {
   CreditCard,
   TrendingUp,
 } from "lucide-react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   formatCurrency,
@@ -254,13 +255,13 @@ export default function UserHome() {
               {data.action?.tip ?? "Review your budget regularly."}
             </p>
           </div>
-          <a
-            href={data.action?.url ?? "#"}
+          <Link
+            href="/dashboard/expenses"
             className="mt-4 inline-flex items-center justify-center rounded-md bg-gray-900 text-white px-4 py-2 text-sm hover:bg-gray-800 transition-colors"
           >
-            Go to {data.action?.label ?? "Action"}
+            Go to View Expenses
             <ArrowUpRight className="w-4 h-4 ml-2" />
-          </a>
+          </Link>
         </motion.div>
       </div>
     </div>

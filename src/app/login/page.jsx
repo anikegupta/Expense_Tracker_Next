@@ -44,15 +44,19 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
-      <div className="w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] shadow-2xl rounded-2xl p-10 bg-zinc-100 border-t-4 border-blue-900 hover:scale-102">
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800 hover:scale-102">
-          Login Here
-        </h1>
-        <form noValidate onSubmit={submitData}>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 px-4">
+      <form noValidate onSubmit={submitData} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] p-8 shadow-2xl backdrop-blur-xl">
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-white">
+              Login Here
+            </h1>
+            <p className="text-slate-300 text-sm mt-2">Enter your credentials to continue</p>
+          </div>
+
           {/* Email */}
           <div>
-            <label className="block text-gray-700 mb-1">Email</label>
+            <label className="text-lg font-medium text-slate-200">Email</label>
             <input
               value={loginData.email}
               onChange={(e) =>
@@ -60,15 +64,15 @@ export default function Login() {
               }
               type="email"
               name="email"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-white" // Added text color
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Enter your email"
               required
             />
           </div>
 
           {/* Password */}
-          <div className="mt-2 relative">
-            <label className="block text-gray-700 mb-1">Password</label>
+          <div className="relative">
+            <label className="text-lg font-medium text-slate-200">Password</label>
             <input
               value={loginData.password}
               onChange={(e) =>
@@ -76,14 +80,14 @@ export default function Login() {
               }
               type={showPassword ? "text" : "password"}
               name="password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10 text-gray-900 bg-white" // Added text color
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 pr-12"
               placeholder="Enter your password"
               required
             />
 
             {/* Eye icon */}
             <span
-              className="absolute right-3 top-[38px] cursor-pointer text-gray-600 hover:text-blue-600 select-none"
+              className="absolute right-4 top-[52px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
               onMouseDown={() => setShowPassword(true)}
               onMouseUp={() => setShowPassword(false)}
               onMouseLeave={() => setShowPassword(false)}
@@ -99,38 +103,38 @@ export default function Login() {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-center gap-2 mt-4">
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-blue-700 text-white px-4 rounded py-2 hover:bg-blue-600 transition hover:scale-105 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
+          <div className="flex gap-4 justify-between pt-2">
             <button
               type="button"
               disabled={loading}
-              className="bg-orange-700 text-white px-4 rounded py-2 hover:bg-orange-600 transition hover:scale-105 cursor-pointer disabled:opacity-50"
+              className="flex-1 inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-md font-semibold text-white transition hover:bg-red-700 hover:cursor-pointer disabled:opacity-60"
               onClick={() => setLoginData({ email: "", password: "" })}
             >
               Reset
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
+            >
+              {loading ? "Logging in..." : "Login"}
             </button>
           </div>
 
           {/* Signup redirect line */}
           <div className="flex justify-center mt-4">
-            <p className="text-gray-600 text-sm">
+            <p className="text-slate-300 text-sm">
               Don't have an account?{" "}
               <span
                 onClick={() => router.push("/signup")}
-                className="text-indigo-600 hover:underline cursor-pointer font-medium"
+                className="text-cyan-400 hover:text-cyan-300 cursor-pointer font-medium transition"
               >
                 Sign up
               </span>
             </p>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
