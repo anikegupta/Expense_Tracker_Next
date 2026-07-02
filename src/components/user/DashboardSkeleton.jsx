@@ -2,7 +2,7 @@ import React from "react";
 
 export default function DashboardSkeleton() {
   return (
-    <div className="px-4 md:px-6 lg:px-8 py-6 max-w-7xl animate-pulse">
+    <div className="mx-auto md:px-6 lg:px-8 py-6 max-w-7xl animate-pulse">
       
       <div className="h-20 w-full bg-white rounded-lg mb-3" />
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">

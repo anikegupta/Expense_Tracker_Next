@@ -19,6 +19,14 @@ const softDeleteHandler = async (request) => {
     expense.deletedAt = new Date();
     await expense.save();
 
+    // Clean up expired recycle-bin entries for this user
+    const expiryThreshold = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    await Expense.deleteMany({
+      userId: expense.userId,
+      isDeleted: true,
+      deletedAt: { $lte: expiryThreshold }
+    });
+
     return NextResponse.json({ 
       message: "Expense moved to recycle bin",
       expense: {

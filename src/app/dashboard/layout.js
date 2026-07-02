@@ -3,7 +3,11 @@
 import React, { useEffect } from "react";
 import SideMenu from "../../components/SideMenu";
 import { useRouter } from "next/navigation";
-import { getAccessTokenFromLocalStorage } from "../../services/LocaStorageSrevice";
+import {
+  getAccessTokenFromLocalStorage,
+  removeLoginData,
+} from "../../services/LocaStorageSrevice";
+import { isTokenExpired } from "../../utils/jwtExpiry";
 import Swal from "sweetalert2";
 
 function DashboardLayout({ children }) {
@@ -11,13 +15,17 @@ function DashboardLayout({ children }) {
 
   function checkAuthentication() {
     const token = getAccessTokenFromLocalStorage();
-    if (!token) { 
+
+    if (!token || isTokenExpired(token)) {
+      removeLoginData();
       Swal.fire({
         icon: "warning",
-        title: "Unauthorized",
-        text: "You must be logged in to access the dashboard.",
+        title: token ? "Session Expired" : "Unauthorized",
+        text: token
+          ? "Login session expired. Please login again."
+          : "You must be logged in to access the dashboard.",
         confirmButtonColor: "#3085d6",
-        confirmButtonText: "OK",
+        confirmButtonText: "Login",
       }).then(() => {
         router.push("/login");
       });

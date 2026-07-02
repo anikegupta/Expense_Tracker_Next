@@ -1,10 +1,66 @@
-import Groq from "groq-sdk";
+import OpenAI from "openai";
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
+export const openRouterClient = {
+  generate: async ({ prompt, systemPrompt = "" }) => {
+    const apiKey = process.env.OPENROUTER_API_KEY;
 
-const groqClientInstance = new Groq({
-  apiKey: GROQ_API_KEY,
-});
+    if (!apiKey) {
+      throw new Error("Missing OPENROUTER_API_KEY environment variable");
+    }
+
+    const messages = [];
+
+    if (systemPrompt) {
+      messages.push({
+        role: "system",
+        content: systemPrompt.trim(),
+      });
+    }
+
+    messages.push({
+      role: "user",
+      content: prompt,
+    });
+
+    try {
+      const response = await fetch(
+        "https://openrouter.ai/api/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": "http://localhost:3000",
+            "X-Title": "Expense Tracker",
+          },
+          body: JSON.stringify({
+            model: "openai/gpt-4.1-mini",
+            messages,
+            temperature: 0.2,
+            max_tokens: 600,
+             response_format: {
+    type: "json_object",
+  },
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error(data);
+        throw new Error(
+          data?.error?.message || "OpenRouter request failed"
+        );
+      }
+
+      return data.choices[0].message.content.trim();
+    } catch (err) {
+      console.error("OpenRouter Error:", err);
+      throw err;
+    }
+  },
+};
 
 const extractTextFromResponse = (response) => {
   const choice = response?.choices?.[0];
@@ -27,39 +83,3 @@ const extractTextFromResponse = (response) => {
     : null;
 };
 
-export const groqClient = {
-  generate: async ({ prompt, systemPrompt = "" }) => {
-    if (!GROQ_API_KEY) {
-      throw new Error("Missing GROQ_API_KEY environment variable");
-    }
-
-    const messages = [];
-    if (systemPrompt) {
-      messages.push({ role: "system", content: systemPrompt.trim() });
-    }
-    messages.push({ role: "user", content: prompt });
-
-    try {
-      const response = await groqClientInstance.chat.completions.create({
-        model: "openai/Llama 3.1 8B",
-        messages,
-        temperature: 0.2,
-        max_tokens: 512,
-      });
-
-      const text = extractTextFromResponse(response);
-      if (!text) {
-        console.error("Groq raw response:", JSON.stringify(response, null, 2));
-        throw new Error("No response text from Groq");
-      }
-
-      return text;
-    } catch (error) {
-      console.error("Groq API error:", error);
-      const message =
-        error?.message ||
-        (error?.response?.data?.error?.message ?? "Unknown Groq error");
-      throw new Error(`Groq request failed: ${message}`);
-    }
-  },
-};

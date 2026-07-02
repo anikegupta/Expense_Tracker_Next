@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { getDashboardData } from "@/services/AIService";
 import { useAuthContext } from "@/context/AuthContext";
+import { isTokenExpired } from "@/utils/jwtExpiry";
+import { getAccessTokenFromLocalStorage } from "@/services/LocaStorageSrevice";
 import DayWiseSpendChart from "@/components/user/DayWiseSpendChart";
 import StatCard from "@/components/user/StarCard";
 import PaymentMethodDoughnut from "@/components/user/PaymentMethodDoughnut";
@@ -32,29 +34,41 @@ export default function UserHome() {
     setDashboardData,
     loadingDashboardData,
     setLoadingDashboardData,
+    logoutUser,
   } = useAuthContext();
   const [dashboardError, setDashboardError] = useState(null);
 
   useEffect(() => {
     async function loadDashboardData() {
       try {
+        const token = getAccessTokenFromLocalStorage();
+        if (!token || isTokenExpired(token)) {
+          throw { status: 401, message: "Login session expired. Please login again." };
+        }
+
         const data = await getDashboardData();
         setDashboardData(data);
         setDashboardError(null);
         console.log("Dashboard data loaded:", data);
       } catch (error) {
         console.error("Failed to load dashboard data:", error);
-        setDashboardError(error.message || "Unable to load dashboard data.");
+        const message =
+          error?.message || "Unable to load dashboard data.";
+        setDashboardError(message);
+
+        if (error?.status === 401 || error?.status === 403) {
+          logoutUser();
+        }
       } finally {
         setLoadingDashboardData(false);
       }
     }
 
-    if (!dashboardData && !loadingDashboardData) {
+    if (!dashboardData && !loadingDashboardData && !dashboardError) {
       setLoadingDashboardData(true);
       loadDashboardData();
     }
-  }, [dashboardData, loadingDashboardData, setDashboardData, setLoadingDashboardData]);
+  }, [dashboardData, loadingDashboardData, dashboardError, logoutUser, setDashboardData, setLoadingDashboardData]);
 
   if (loadingDashboardData) {
     return <DashboardSkeleton />;

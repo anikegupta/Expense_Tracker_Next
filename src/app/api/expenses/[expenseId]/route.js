@@ -46,21 +46,31 @@ const updateExpenseHandler = async (request) => {
   }
 };
 
-// ✅ Delete expense - FIXED: Always return JSON
+// ✅ Delete expense - moves it to recycle bin instead of removing it permanently
 const deleteExpenseHandler = async (request) => {
   try {
     await connectDB();
     const expenseId = request.url.split('/').pop();
-    
-    const deletedExpense = await Expense.findByIdAndDelete(expenseId);
-    
-    if (!deletedExpense) {
+    const userId = request.userId;
+
+    const expense = await Expense.findOne({ _id: expenseId, userId });
+
+    if (!expense) {
       return NextResponse.json({ message: "Expense not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ 
-      message: "Expense deleted successfully",
-      deletedId: expenseId 
+    expense.isDeleted = true;
+    expense.deletedAt = new Date();
+    await expense.save();
+
+    return NextResponse.json({
+      message: "Expense moved to recycle bin",
+      deletedId: expenseId,
+      expense: {
+        _id: expense._id,
+        isDeleted: expense.isDeleted,
+        deletedAt: expense.deletedAt,
+      },
     });
   } catch (error) {
     console.error('Error in deleteExpense:', error);

@@ -84,9 +84,9 @@ const UserProfile = () => {
     return <p className="text-center text-gray-500 mt-10">Loading...</p>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col items-center py-10 px-4">
+    <div className=" justify-items-center mt-30">
       {/* Profile Card */}
-      <div className="bg-white/10 backdrop-blur-lg shadow-lg rounded-2xl p-6 w-full max-w-lg flex flex-col items-center ">
+      <div className="bg-white/10 backdrop-blur-lg shadow-lg rounded-2xl p-6 w-full max-w-xl flex flex-col items-center ">
         <div className="relative group cursor-pointer">
           {form.avatar ? (
             <img
@@ -177,11 +177,11 @@ const UserProfile = () => {
             </>
           )}
         </div>
-      </div>
-
-      <p className="mt-10 text-gray-300 text-sm">
+        <p className="mt-10 text-gray-300 text-sm">
         Manage your profile settings & personal info.
       </p>
+      </div>
+      
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { groqClient } from '@/lib/config/geminiClient';
+import { openRouterClient  } from '@/lib/config/geminiClient';
 import { connectDB } from '@/lib/mongodb';
 import { getExpenseData } from '@/lib/utils/expenseHelper';
 import { authMiddleware } from '@/middleware/auth';
@@ -39,7 +39,7 @@ Now return an object matching this schema:
 }
 `;
 
-    const responseText = await groqClient.generate({
+    const responseText = await openRouterClient.generate({
       prompt: userPrompt,
       systemPrompt,
     });
@@ -49,7 +49,6 @@ Now return an object matching this schema:
       console.error("Gemini suggestion output:", responseText);
       throw new Error("Gemini did not return valid JSON");
     }
-
     let result;
     try {
       result = JSON.parse(jsonMatch[0]);
@@ -65,7 +64,8 @@ Now return an object matching this schema:
       { error: "AI suggestion failed", details: error.message },
       { status: 500 }
     );
+ 
   }
-}
+};
 
 export const POST = authMiddleware(getSuggestionsHandler);

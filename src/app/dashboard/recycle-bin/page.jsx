@@ -290,18 +290,18 @@ export default function RecycleBin() {
   }, [searchTerm, category, startDate, endDate]);
 
   const EmptyState = () => (
-    <div className="text-center py-16 border border-dashed rounded-xl bg-white/50">
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
-        <Trash2 className="h-6 w-6 text-gray-500" />
+    <div className="text-center py-16 rounded-xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 border border-white/10">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
+        <Trash2 className="h-6 w-6 text-slate-200" />
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-gray-900">No deleted expenses</h3>
-      <p className="mt-1 text-gray-500">
-        Deleted items will appear here. You can restore or permanently delete them.
+      <h3 className="mt-4 text-lg font-semibold text-white">No deleted expenses</h3>
+      <p className="mt-1 text-slate-300">
+        Deleted items stay here for 24 hours before they are removed automatically. You can restore them or delete them permanently anytime during that window.
       </p>
       <button
         type="button"
         onClick={refresh}
-        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer"
+        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
       >
         <RefreshCw className="h-4 w-4" />
         Refresh
@@ -310,12 +310,23 @@ export default function RecycleBin() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 p-4 md:p-6 text-gray-900">
+    <div className="min-h-screen bg-gray-150 p-4 text-gray-900">
       <div className="max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Recycle Bin</h1>
-        <p className="mt-1 text-gray-600">View and manage expenses that have been deleted.</p>
+      <div className="mb-6 rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 shadow-2xl text-white">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">Recycle Bin</h1>
+            <p className="mt-1 text-slate-300">Expenses stay in the recycle bin for 24 hours before they are removed automatically. You can restore or permanently delete them during that period.</p>
+          </div>
+          <button
+            type="button"
+            onClick={refresh}
+            className="rounded-full bg-cyan-600 px-5 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition"
+          >
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Error */}
@@ -339,20 +350,20 @@ export default function RecycleBin() {
       {/* Filters */}
       <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3">
         <div className="md:col-span-4 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
           <input
             type="text"
             placeholder="Search description or notes..."
-            className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
         <div className="md:col-span-3 relative">
-          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 " />
+          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 " />
           <select
-            className="w-full appearance-none rounded-lg border border-gray-300 pl-9 pr-9 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white cursor-pointer"
+            className="w-full appearance-none rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-9 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -365,20 +376,20 @@ export default function RecycleBin() {
         </div>
 
         <div className="md:col-span-2 relative ">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
           <input
             type="date"
-            className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer"
+            className="w-full rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
         </div>
 
         <div className="md:col-span-2 relative">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
           <input
             type="date"
-            className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer"
+            className="w-full rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
@@ -396,7 +407,7 @@ export default function RecycleBin() {
               setSortDir("desc");
               setPage(1);
             }}
-            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-gray-700 hover:bg-gray-50 cursor-pointer"
+            className="w-full rounded-lg border border-white/10 bg-slate-950/90 px-3 py-2.5 text-white hover:bg-slate-900 cursor-pointer"
             title="Reset filters"
           >
             Reset
@@ -415,8 +426,8 @@ export default function RecycleBin() {
 
       {/* Bulk actions */}
       {selected.size > 0 && (
-        <div className="mb-3 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2.5">
-          <div className="text-sm text-blue-900">{selected.size} selected</div>
+        <div className="mb-3 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 rounded-lg border border-blue-400/30 bg-blue-950/80 px-3 py-2.5">
+          <div className="text-sm text-slate-100">{selected.size} selected</div>
           <div className="flex items-center gap-2 flex-wrap">
             <button
               type="button"
@@ -439,12 +450,12 @@ export default function RecycleBin() {
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+      <div className="overflow-x-auto rounded-t-xl border border-gray-200 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white">
         <div className="min-w-[700px]">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-white/10">
+            <thead className="bg-white/10">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-200">
                   <input
                     type="checkbox"
                     className="h-4 w-4 rounded border-gray-300"
@@ -466,7 +477,7 @@ export default function RecycleBin() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-white/10">
               {loading &&
                 Array.from({ length: Math.min(5, pageSize) }).map((_, idx) => (
                   <tr key={`skeleton-${idx}`} className="animate-pulse">
@@ -521,16 +532,16 @@ export default function RecycleBin() {
                         )}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {formatDateTime(item?.date)}
+                        {formatDateTime(item?.createdAt || item?.date)}
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{item?.category || "-"}</td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{item?.paymentMethod || item?.category || "-"}</td>
                       <td className="px-4 py-3 text-sm text-gray-700">
                         <div className="max-w-[42ch] truncate" title={item?.description || ""}>
                           {item?.description || "-"}
                         </div>
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-right">
-                        {formatCurrency(item?.amount)}
+                        {formatCurrency(item?.rs || item?.amount)}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                         {formatDateTime(item?.deletedAt)}
@@ -566,8 +577,8 @@ export default function RecycleBin() {
       </div>
 
       {/* Footer / pagination */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-gray-200 bg-gray-50 px-4 py-3">
-        <div className="text-sm text-gray-600">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 bg-slate-950/80 px-4 py-3 rounded-b-xl text-slate-200">
+        <div className="text-sm text-slate-200">
           Showing{" "}
           <span className="font-medium">{items.length > 0 ? (page - 1) * pageSize + 1 : 0}</span>{" "}
           to <span className="font-medium">{(page - 1) * pageSize + items.length}</span> of{" "}
@@ -581,7 +592,7 @@ export default function RecycleBin() {
             </label>
             <select
               id="pageSize"
-              className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm"
+              className="rounded-md border border-white/10 bg-slate-950/90 px-2 py-1 text-sm text-white"
               value={pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
@@ -603,8 +614,8 @@ export default function RecycleBin() {
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               className={`inline-flex items-center rounded-md border px-2 py-1.5 text-sm ${
                 page <= 1 || loading
-                  ? "border-gray-200 text-gray-300"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-100"
+                  ? "border-slate-700 text-slate-500"
+                  : "border-white/10 text-slate-200 hover:bg-slate-900"
               }`}
               title="Previous"
             >
@@ -620,8 +631,8 @@ export default function RecycleBin() {
               onClick={() => setPage((p) => Math.min(pages, p + 1))}
               className={`inline-flex items-center rounded-md border px-2 py-1.5 text-sm ${
                 page >= pages || loading
-                  ? "border-gray-200 text-gray-300"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-100"
+                  ? "border-slate-700 text-slate-500"
+                  : "border-white/10 text-slate-200 hover:bg-slate-900"
               }`}
               title="Next"
             >

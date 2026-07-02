@@ -1,13 +1,16 @@
 import { getAccessTokenFromLocalStorage } from "./LocaStorageSrevice";
 
 export const getDashboardData = async () => {
-  try {
-    const token = getAccessTokenFromLocalStorage();
-    
-    if (!token) {
-      throw new Error('No access token found');
-    }
+  const token = getAccessTokenFromLocalStorage();
 
+  if (!token) {
+    throw {
+      status: 401,
+      message: "No access token found.",
+    };
+  }
+
+  try {
     const response = await fetch('/api/ai/suggestions', {
       method: 'POST',
       headers: {

@@ -141,18 +141,18 @@ export default function FeedbackPage() {
                 </div>
               )}
 
-              <div className="flex gap-4 justify-between">
+              <div className="flex gap-10 justify-between">
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex-1 inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-md font-semibold text-white transition hover:bg-red-700 hover:cursor-pointer"
+                  className="flex-1 items-center justify-center rounded bg-red-600 px-1 py-4 text-md font-semibold text-white transition hover:bg-red-700 hover:cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSending}
-                  className="flex-1 inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
+                  className="flex-1 inline-flex items-center justify-center rounded bg-cyan-500 px-1 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
                 >
                   {isSending ? "Sending feedback..." : "Send feedback"}
                 </button>

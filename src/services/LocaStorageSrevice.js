@@ -1,3 +1,5 @@
+import { isTokenExpired } from "../utils/jwtExpiry";
+
 // Next.js-safe localStorage service
 // All functions check for window before accessing localStorage
 
@@ -29,6 +31,15 @@ export const removeLoginData = () => {
   }
 };
 
+export const isAccessTokenValid = () => {
+  const token = getAccessTokenFromLocalStorage();
+  return !!token && !isTokenExpired(token);
+};
+
 export const isUserLogin = () => {
-  return !!(getUserFromLocalStorage() && getAccessTokenFromLocalStorage());
+  return !!(
+    getUserFromLocalStorage() &&
+    getAccessTokenFromLocalStorage() &&
+    !isTokenExpired(getAccessTokenFromLocalStorage())
+  );
 };

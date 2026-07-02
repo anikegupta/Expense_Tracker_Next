@@ -17,7 +17,8 @@ const restoreExpensesHandler = async (request) => {
     const result = await Expense.updateMany(
       { 
         _id: { $in: ids },
-        userId 
+        userId,
+        isDeleted: true
       },
       { 
         $set: { 

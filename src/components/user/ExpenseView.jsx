@@ -57,47 +57,44 @@ function ExpenseView({ onUpdateExpense, removeExpense, expense }) {
   const [openEdit, setOpenEdit] = useState(false);
 
   return (
-    <div className="hover:bg-neutral-100 hover:cursor-pointer relative mx-auto bg-white rounded-2xl shadow-lg p-5 flex flex-col items-center gap-2 hover:shadow-xl transition border-t-4 hover:scale-105 border-blue-900">
+    <div className="hover:cursor-pointer relative mx-auto rounded-[1.5rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-5 text-white shadow-2xl transition duration-200 hover:-translate-y-1 hover:shadow-3xl">
       {/* Top Money Bag Image */}
-      <img
-        src="https://img.icons8.com/color/96/money-bag.png"
-        alt="money bag"
-        className="w-16 h-16 rounded-xl object-cover"
-      />
+      <div className="flex items-center justify-between">
+        <img
+          src="https://img.icons8.com/color/96/money-bag.png"
+          alt="money bag"
+          className="h-14 w-14 rounded-2xl object-cover"
+        />
+        <div className="flex gap-2">
+          <MdDelete
+            onClick={handleDelete}
+            className="cursor-pointer rounded-full bg-white/10 p-2 h-8 w-8 text-slate-100 transition hover:bg-red-500 hover:text-white"
+            size={20}
+          />
+          <BsPencilSquare
+            onClick={() => setOpenEdit(true)}
+            className="cursor-pointer rounded-full bg-white/10 p-2 h-8 w-8 text-slate-100 transition hover:bg-cyan-400 hover:text-slate-950"
+            size={20}
+          />
+        </div>
+      </div>
 
       {/* Expense Content */}
-      <div className="flex-1 w-full">
-        {/* Title and Amount */}
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-800">{expense.title}</h2>
-          <span className="text-xl font-bold text-green-600">₹{expense.rs}</span>
+      <div className="mt-4 flex-1 w-full">
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="text-lg font-semibold text-white">{expense.title}</h2>
+          <span className="text-lg font-bold text-emerald-400">₹{expense.rs}</span>
         </div>
 
-        {/* Description */}
-        <p className="text-sm text-gray-500 mt-1">{expense.description}</p>
+        <p className="mt-2 text-sm text-slate-300">{expense.description}</p>
 
-        {/* Payment Method and Date */}
-        <div className="flex justify-between items-center mt-3 text-xs text-gray-400">
-          <span className="px-2 py-1 bg-gray-100 rounded-full text-gray-600 flex items-center gap-1 capitalize">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300">
+          <span className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 capitalize text-slate-100">
             {getPaymentIcon(expense.paymentMethod)}
             {expense.paymentMethod}
           </span>
           <span>{formattedDate}</span>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex gap-2 absolute right-3 top-3">
-        <MdDelete
-          onClick={handleDelete}
-          className="cursor-pointer p-2 w-7 h-7 bg-gray-300 rounded-full hover:bg-red-400 hover:text-white transition"
-          size={20}
-        />
-        <BsPencilSquare
-          onClick={() => setOpenEdit(true)}
-          className="cursor-pointer p-2 w-7 h-7 bg-gray-300 rounded-full hover:bg-blue-400 hover:text-white transition"
-          size={20}
-        />
       </div>
       <UpdateExpenseModal
         open={openEdit}

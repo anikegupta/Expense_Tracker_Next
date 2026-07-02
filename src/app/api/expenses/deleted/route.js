@@ -18,6 +18,15 @@ const getDeletedExpensesHandler = async (request) => {
     const sortBy = searchParams.get('sortBy') || 'deletedAt';
     const sortDir = searchParams.get('sortDir') || 'desc';
 
+    const expiryThreshold = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    // Remove expired recycle-bin items automatically before fetching
+    await Expense.deleteMany({
+      userId,
+      isDeleted: true,
+      deletedAt: { $lte: expiryThreshold }
+    });
+
     // Build query for deleted expenses
     let query = { 
       userId, 

@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="hidden lg:block w-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white shadow-inner z-40">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-row justify-between items-start gap-12 lg:gap-20 text-left">
         {/* Brand + About */}
-        <div className="flex flex-col gap-2 w-1/3 items-center text-center">
+        <div className="flex flex-col gap-2 w-1/2 items-center text-center">
           <h2 className="text-2xl font-semibold bg-gradient-to-r from-cyan-200 via-white to-cyan-400 bg-clip-text text-transparent hover:drop-shadow-[0_2px_10px_rgba(255,255,255,0.7)] transition">
             Pocket Guard
           </h2>

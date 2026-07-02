@@ -97,7 +97,7 @@ const AddExpense = () => {
               step="1"
               required
               placeholder="Enter amount"
-              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              className="mt-3 w-full rounded-2xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
             />
           </div>
 
@@ -110,7 +110,7 @@ const AddExpense = () => {
               value={formData.paymentMethod}
               onChange={handleChange}
               required
-              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-6 py-4 text-white font-md outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
             >
               <option value="Cash">💵 Cash</option>
               <option value="Card">💳 Card</option>
@@ -120,9 +120,9 @@ const AddExpense = () => {
           </div>
 
           {/* Visibility */}
-          <div>
+          <div >
             <label className="text-lg font-medium text-slate-200 block mb-3">Visibility</label>
-            <div className="rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30">
               <span className="text-slate-300 text-sm">Mark as Hidden</span>
               <div className="mt-3 flex items-center gap-6">
                 <label className="inline-flex items-center gap-3 text-slate-300 cursor-pointer">
@@ -169,7 +169,7 @@ const AddExpense = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 cursor-pointer"
+            className=" inline-flex items-center justify-center rounded bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 cursor-pointer"
           >
             Save Expense
           </button>

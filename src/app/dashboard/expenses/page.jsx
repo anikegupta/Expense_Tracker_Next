@@ -118,107 +118,118 @@ function ViewExpenses() {
 
   return (
     <div className="min-h-screen bg-gray-150 p-4">
-           {/* search bar */}
-      <div className="flex gap-3 flex-wrap mb-4">
-        <input
-          onChange={(e) => {
-            setSearchKeyword(e.target.value);
-          }}
-          value={searchKeyword}
-          type="text"
-          id="voice-search"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block flex-1 p-2.5"
-          placeholder="Search your expense here"
-          required
-        />
-      </div>
-
-      <div className="filter_container items-center flex justify-between gap-2 py-2 mb-4">
-        <div className="flex gap-2 flex-wrap">
-          <div className="flex flex-col">
-            <span className="text-gray-500 px-1 text-xs font-semibold">Select min price</span>
-            <TextInput
-              onChange={(e) => {
-                setFilters({
-                  ...filters,
-                  minPrice: e.target.value,
-                });
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  applyFilter();
-                }
-              }}
-              value={filters.minPrice}
-              id="minPrice"
-              sizing="sm"
-              placeholder="Min Price"
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-gray-500 px-1 text-xs font-semibold">Select max price</span>
-            <TextInput
-              onChange={(e) => {
-                setFilters({
-                  ...filters,
-                  maxPrice: e.target.value,
-                });
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  applyFilter();
-                }
-              }}
-              value={filters.maxPrice}
-              id="maxPrice"
-              sizing="sm"
-              placeholder="Max Price"
-            />
+      <div className="mb-6 rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 shadow-2xl backdrop-blur-xl">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h2 className="text-3xl font-bold text-white">View Expense</h2>
+              <p className="mt-2 text-sm text-slate-300">
+                Review your transactions, refine them with filters, and keep your budget in check.
+              </p>
+            </div>
+            <div className="flex-1 max-w-xl">
+              <label className="mb-2 block text-sm font-medium text-slate-200">Search expenses</label>
+              <input
+                onChange={(e) => {
+                  setSearchKeyword(e.target.value);
+                }}
+                value={searchKeyword}
+                type="text"
+                id="voice-search"
+                className="w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                placeholder="Search your expense here"
+                required
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col">
-            <span className="text-gray-500 px-1 text-xs font-semibold">From Date</span>
-            <input
-              type="date"
-              onChange={(e) => {
-                setFilters({
-                  ...filters,
-                  fromDate: e.target.value,
-                });
-              }}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
-            />
+          <div className="grid gap-4 xl:grid-cols-[repeat(4,minmax(0,1fr))]">
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Select min price</span>
+              <TextInput
+                onChange={(e) => {
+                  setFilters({
+                    ...filters,
+                    minPrice: e.target.value,
+                  });
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    applyFilter();
+                  }
+                }}
+                value={filters.minPrice}
+                id="minPrice"
+                sizing="sm"
+                placeholder="Min Price"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Select max price</span>
+              <TextInput
+                onChange={(e) => {
+                  setFilters({
+                    ...filters,
+                    maxPrice: e.target.value,
+                  });
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    applyFilter();
+                  }
+                }}
+                value={filters.maxPrice}
+                id="maxPrice"
+                sizing="sm"
+                placeholder="Max Price"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">From Date</span>
+              <input
+                type="date"
+                onChange={(e) => {
+                  setFilters({
+                    ...filters,
+                    fromDate: e.target.value,
+                  });
+                }}
+                className="rounded-2xl border border-white/10 bg-slate-900/90 p-2 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">To Date</span>
+              <input
+                type="date"
+                onChange={(e) => {
+                  setFilters({
+                    ...filters,
+                    toDate: e.target.value,
+                  });
+                }}
+                className="rounded-2xl border border-white/10 bg-slate-900/90 p-2 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col">
-            <span className="text-gray-500 px-1 text-xs font-semibold">To Date</span>
-            <input
-              type="date"
-              onChange={(e) => {
-                setFilters({
-                  ...filters,
-                  toDate: e.target.value,
-                });
-              }}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2"
-            />
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={applyFilter}
+              className="cursor-pointer rounded-full bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-cyan-400"
+            >
+              Apply Filter
+            </button>
+            <button
+              type="button"
+              onClick={clearFilter}
+              className="cursor-pointer rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
+            >
+              Clear Filter
+            </button>
           </div>
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          <button
-            type="button"
-            onClick={applyFilter}
-            className="cursor-pointer rounded bg-green-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-green-700"
-          >
-            Apply Filter
-          </button>
-          <button
-            type="button"
-            onClick={clearFilter}
-            className="cursor-pointer rounded bg-red-600 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-700"
-          >
-            Clear Filter
-          </button>
         </div>
       </div>
 
