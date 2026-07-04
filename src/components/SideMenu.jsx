@@ -122,7 +122,7 @@ function SideMenu() {
               {/* Logout */}
               <button
                 onClick={logoutUser}
-                className="flex items-center space-x-4 px-4 py-3 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white w-full text-left"
+                className="flex items-center space-x-4 px-4 py-3 rounded-md text-gray-300 hover:bg-gray-800 hover:text-white w-full text-left cursor-pointer"
               >
                 <span className="text-lg">
                   <BiLogOut />

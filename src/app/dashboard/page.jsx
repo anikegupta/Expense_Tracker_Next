@@ -95,8 +95,8 @@ export default function UserHome() {
       <div className="mt-2 mb-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-blue-500/10 to-emerald-500/10 border border-indigo-100/60 p-5">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-black">Dashboard</h1>
-            <p className="text-sm text-gray-600">
+            <h1 className="text-2xl font-semibold text-white">Dashboard</h1>
+            <p className="text-sm text-white/80">
               Weekly overview and insights
             </p>
           </div>

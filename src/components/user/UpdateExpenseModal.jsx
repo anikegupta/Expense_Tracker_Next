@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Modal, Button, Label, TextInput, Textarea, Select } from "flowbite-react";
 import { MdOutlineCurrencyRupee, MdPayment, MdTitle } from "react-icons/md";
 import { toast } from "react-toastify";
 import { updateExpense } from "../../services/ExpenseService";
 
 const paymentOptions = [
-  { value: "Cash", label: "💵 Cash" },
-  { value: "Card", label: "💳 Card" },
-  { value: "UPI", label: "📱 UPI" },
-  { value: "Bank Transfer", label: "🏦 Bank Transfer" },
+  { value: "Cash", label: "Cash" },
+  { value: "Card", label: "Card" },
+  { value: "UPI", label: "UPI" },
+  { value: "Bank Transfer", label: "Bank Transfer" },
 ];
 
 export default function UpdateExpenseModal({ open, onClose, expense, onSuccess }) {
@@ -44,8 +43,14 @@ export default function UpdateExpenseModal({ open, onClose, expense, onSuccess }
   }, [form.rs]);
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
-    setForm((prev) => ({ ...prev, [name]: type === "number" ? Number(value) : value }));
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setForm((prev) => ({ ...prev, [name]: checked }));
+    } else if (type === "number") {
+      setForm((prev) => ({ ...prev, [name]: Number(value) }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -69,41 +74,41 @@ export default function UpdateExpenseModal({ open, onClose, expense, onSuccess }
     }
   };
 
+  if (!open) return null;
+
   return (
-    <Modal show={open} onClose={onClose} size="xl" className="backdrop-blur">
-      <Modal.Header className="bg-white rounded-t-2xl">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center ring-1 ring-indigo-400/50">
-            ₹
-          </div>
-          <div>
-            <div className="text-base font-semibold text-gray-800">Update Expense</div>
-            <div className="text-xs text-gray-500">Make changes and save</div>
-          </div>
-        </div>
-      </Modal.Header>
-      <Modal.Body className="bg-white">
-        <form onSubmit={handleSubmit} className="space-y-5 bg-white">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Title */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-lg overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-lg bg-indigo-600 text-white grid place-items-center">₹</div>
             <div>
-              <Label htmlFor="title">Title</Label>
-              <TextInput
+              <div className="text-lg font-semibold text-slate-900">Update Expense</div>
+              <div className="text-sm text-slate-500">Make changes and save</div>
+            </div>
+          </div>
+          <button onClick={onClose} className="text-slate-500 hover:text-slate-700">Close</button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-4 bg-white">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-700">Title</label>
+              <input
                 id="title"
                 name="title"
                 value={form.title}
                 onChange={handleChange}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2"
                 placeholder="Expense title"
-                icon={MdTitle}
                 required
-                shadow
               />
             </div>
 
-            {/* Amount */}
             <div>
-              <Label htmlFor="rs">Amount (₹)</Label>
-              <TextInput
+              <label className="block text-sm font-medium text-slate-700">Amount (₹)</label>
+              <input
                 id="rs"
                 name="rs"
                 type="number"
@@ -111,85 +116,60 @@ export default function UpdateExpenseModal({ open, onClose, expense, onSuccess }
                 step="1"
                 value={form.rs}
                 onChange={handleChange}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2"
                 placeholder="0"
-                icon={MdOutlineCurrencyRupee}
                 required
-                shadow
               />
-              <p className="mt-1 text-[11px] text-gray-500">
-                Preview: <span className="font-semibold">{previewAmount}</span>
-              </p>
+              <p className="mt-1 text-xs text-slate-500">Preview: <span className="font-semibold">{previewAmount}</span></p>
             </div>
 
-            {/* Payment Method */}
             <div>
-              <Label htmlFor="paymentMethod">Payment Method</Label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                  <MdPayment className="h-5 w-5" />
-                </div>
-                <Select
-                  id="paymentMethod"
-                  name="paymentMethod"
-                  value={form.paymentMethod}
-                  onChange={handleChange}
-                  className="pl-9"
-                  required
-                >
-                  {paymentOptions.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </Select>
-              </div>
+              <label className="block text-sm font-medium text-slate-700">Payment Method</label>
+              <select
+                id="paymentMethod"
+                name="paymentMethod"
+                value={form.paymentMethod}
+                onChange={handleChange}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2"
+                required
+              >
+                {paymentOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
             </div>
 
-            {/* Hidden */}
             <div className="flex items-end">
               <div className="w-full">
-                <Label htmlFor="hidden">Visibility</Label>
-                <label
-                  htmlFor="hidden"
-                  className="mt-1 flex items-center justify-between rounded-xl border border-gray-200 px-3 py-2 cursor-pointer select-none"
-                >
-                  <span className="text-sm text-gray-600">Mark as Hidden</span>
-                  <input
-                    id="hidden"
-                    type="checkbox"
-                    className="h-4 w-4 accent-indigo-600 cursor-pointer"
-                    checked={Boolean(form.hidden)}
-                    onChange={(e) => setForm((p) => ({ ...p, hidden: e.target.checked }))}
-                  />
-                </label>
+                <label className="block text-sm font-medium text-slate-700">Visibility</label>
+                <div className="mt-1 flex items-center justify-between rounded-xl border border-gray-200 px-3 py-2">
+                  <span className="text-sm text-slate-600">Mark as Hidden</span>
+                  <input id="hidden" name="hidden" type="checkbox" checked={Boolean(form.hidden)} onChange={handleChange} className="h-4 w-4" />
+                </div>
               </div>
             </div>
 
-            {/* Description - full width */}
             <div className="md:col-span-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
+              <label className="block text-sm font-medium text-slate-700">Description</label>
+              <textarea
                 id="description"
                 name="description"
                 rows={4}
                 value={form.description}
                 onChange={handleChange}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2"
                 placeholder="Add a note about this expense"
                 required
-                shadow
               />
             </div>
           </div>
+
+          <div className="flex items-center justify-between">
+            <button type="button" onClick={onClose} className="rounded-full bg-gray-200 px-4 py-2 text-sm font-medium text-slate-700">Cancel</button>
+            <button type="submit" disabled={saving} className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white">{saving ? 'Saving...' : 'Save changes'}</button>
+          </div>
         </form>
-      </Modal.Body>
-      <Modal.Footer className="justify-between bg-white rounded-b-2xl">
-        <Button color="gray" className="cursor-pointer hover:scale-103" onClick={onClose} disabled={saving}>
-          Cancel
-        </Button>
-        <Button color="blue" className="cursor-pointer hover:scale-103" onClick={handleSubmit} isProcessing={saving}>
-          Save changes
-        </Button>
-      </Modal.Footer>
-    </Modal>
+      </div>
+    </div>
   );
 }

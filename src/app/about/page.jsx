@@ -14,7 +14,7 @@ export default function AboutPage() {
                 Pocket Guard helps individuals and teams monitor spending, optimise budgets, and find savings with an elegant, data-driven dashboard. Every expense is organised, searchable, and easy to understand.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Link href="/signup" className="inline-flex items-center justify-center rounded-lg shadow-lg transition bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-400">
+                <Link href="/signup" className="inline-flex items-center justify-center rounded shadow-lg transition bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-400">
                   Get Started
                 </Link>
                 {/* <Link href="/dashboard" className="inline-flex items-center justify-center rounded-lg shadow-lg transition bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20">
@@ -143,7 +143,7 @@ export default function AboutPage() {
           <h2 className="text-3xl font-semibold mb-3">Ready to strengthen your budget?</h2>
           <p className="text-slate-200 mb-6">Join Pocket Guard and start tracking every expense with confidence.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/signup" className="inline-flex items-center justify-center rounded-lg shadow-lg transition bg-cyan-500 px-7 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-400">
+            <Link href="/signup" className="inline-flex items-center justify-center rounded shadow-lg transition bg-cyan-500 px-7 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-400">
               Create account
             </Link>
             {/* <Link href="/dashboard" className="inline-flex items-center justify-center rounded-lg shadow-lg transition bg-white/10 px-7 py-3 text-sm font-semibold text-white hover:bg-white/20">

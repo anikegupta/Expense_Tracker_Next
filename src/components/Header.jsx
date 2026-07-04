@@ -15,7 +15,7 @@ export default function Header() {
   return (
     <header className="bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 shadow-md fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 ">
           {/* Logo + Brand Name */}
           <div
             className="flex items-center gap-3 cursor-pointer"
@@ -51,9 +51,9 @@ export default function Header() {
               <Link href="/signup" className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">Signup</Link>
             </div>
           ) : (
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-4 cursor-pointer">
               {/* Avatar + Username */}
-              <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/dashboard/user-profile") }>
+              <div className="flex items-center gap-2" onClick={() => router.push("/dashboard/user-profile") }>
                 {user.avatar ? (
                   <Image src={user.avatar} alt="Profile" width={44} height={44} className="w-11 h-11 rounded-full border-4 border-blue-400 object-cover shadow-md" />
                 ) : (
@@ -63,7 +63,7 @@ export default function Header() {
                 )}
                 <span className="text-white font-medium">{user.username || user.name || "User"}</span>
               </div>
-              <button onClick={logoutUser} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Logout</button>
+              <button onClick={logoutUser} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition cursor-pointer">Logout</button>
             </div>
           )}
 
@@ -94,7 +94,7 @@ export default function Header() {
             </>
           ) : (
             <>
-              <div className="flex items-center space-x-3 cursor-pointer" onClick={() => { setMenuOpen(false); router.push("/dashboard/user-profile"); }}>
+              <div className="flex items-center space-x-3 hover:text-gray-200 transition-transform transform hover:scale-105 duration-200" onClick={() => { setMenuOpen(false); router.push("/dashboard/user-profile"); }}>
                 {user.avatar ? (
                   <Image src={user.avatar} alt="Profile" width={40} height={40} className="w-10 h-10 rounded-full border-4 border-blue-400 object-cover shadow-md" />
                 ) : (
@@ -104,7 +104,7 @@ export default function Header() {
                 )}
                 <span className="text-white font-medium">{user.username || user.name || "User"}</span>
               </div>
-              <button onClick={() => { logoutUser(); setMenuOpen(false); }} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition w-full text-center cursor-pointer">Logout</button>
+              <button onClick={() => { logoutUser(); setMenuOpen(false); }} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700  transition w-full text-center ">Logout</button>
             </>
           )}
         </div>

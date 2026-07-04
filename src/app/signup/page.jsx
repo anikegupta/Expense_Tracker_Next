@@ -51,8 +51,8 @@ export default function Signup() {
   const passwordMismatch = formData.confirmPassword && formData.password !== formData.confirmPassword;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 px-4">
-      <form noValidate onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] p-8 shadow-2xl backdrop-blur-xl">
+    <div className="flex justify-center bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 px-4">
+      <form noValidate onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] p-8 shadow-2xl backdrop-blur-xl mt-20 mb-10">
         <div className="space-y-6">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white">
@@ -115,7 +115,7 @@ export default function Signup() {
 
             {/* Eye icon */}
             <span
-              className="absolute right-4 top-[52px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
+              className="absolute right-5 top-[58px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
               onMouseDown={() => setShowPassword(true)}
               onMouseUp={() => setShowPassword(false)}
               onMouseLeave={() => setShowPassword(false)}
@@ -145,7 +145,7 @@ export default function Signup() {
 
             {/* Eye icon */}
             <span
-              className="absolute right-4 top-[52px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
+              className="absolute right-5 top-[58px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
               onMouseDown={() => setShowConfirmPassword(true)}
               onMouseUp={() => setShowConfirmPassword(false)}
               onMouseLeave={() => setShowConfirmPassword(false)}
@@ -166,11 +166,11 @@ export default function Signup() {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-4 justify-between pt-2">
+          <div className="flex gap-8 justify-between pt-2">
             <button
               type="button"
               disabled={creating}
-              className="flex-1 inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-md font-semibold text-white transition hover:bg-red-700 disabled:opacity-60"
+              className="flex-1 inline-flex items-center justify-center rounded bg-red-600 px-4 py-4 text-md font-semibold text-white transition hover:bg-red-700 disabled:opacity-60 cursor-pointer"
               onClick={() => setFormData({ username: "", email: "", password: "", confirmPassword: "" })}
             >
               Reset
@@ -178,7 +178,7 @@ export default function Signup() {
             <button
               type="submit"
               disabled={creating}
-              className="flex-1 inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center rounded bg-cyan-500 px-4 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
             >
               {creating ? "Creating..." : "Sign Up"}
             </button>

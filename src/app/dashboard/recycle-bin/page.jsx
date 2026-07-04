@@ -310,339 +310,317 @@ export default function RecycleBin() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-150 p-4 text-gray-900">
-      <div className="max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="mb-6 rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 shadow-2xl text-white">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white">Recycle Bin</h1>
-            <p className="mt-1 text-slate-300">Expenses stay in the recycle bin for 24 hours before they are removed automatically. You can restore or permanently delete them during that period.</p>
-          </div>
-          <button
-            type="button"
-            onClick={refresh}
-            className="rounded-full bg-cyan-600 px-5 py-3 text-sm font-semibold text-white hover:bg-cyan-500 transition"
-          >
-            Refresh
-          </button>
-        </div>
-      </div>
-
-      {/* Error */}
-      {error && (
-        <div className="mb-4 flex flex-col md:flex-row items-start md:items-center gap-3 rounded-lg border border-red-200 bg-red-50 p-3 text-red-700">
-          <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-          <div className="flex-1">
-            <p className="font-medium">Failed to load</p>
-            <p className="text-sm">{error}</p>
-          </div>
-          <button
-            type="button"
-            onClick={refresh}
-            className="rounded-md bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-200"
-          >
-            Try again
-          </button>
-        </div>
-      )}
-
-      {/* Filters */}
-      <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-3">
-        <div className="md:col-span-4 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
-          <input
-            type="text"
-            placeholder="Search description or notes..."
-            className="w-full rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <div className="md:col-span-3 relative">
-          <Filter className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 " />
-          <select
-            className="w-full appearance-none rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-9 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {categories.map((c) => (
-              <option key={c} value={c}>
-                {c === "all" ? "All categories" : c}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="md:col-span-2 relative ">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
-          <input
-            type="date"
-            className="w-full rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-
-        <div className="md:col-span-2 relative">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
-          <input
-            type="date"
-            className="w-full rounded-lg border border-white/10 bg-slate-950/90 text-white pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 cursor-pointer"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-
-        <div className="md:col-span-1 flex gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              setSearchTerm("");
-              setCategory("all");
-              setStartDate("");
-              setEndDate("");
-              setSortBy("deletedAt");
-              setSortDir("desc");
-              setPage(1);
-            }}
-            className="w-full rounded-lg border border-white/10 bg-slate-950/90 px-3 py-2.5 text-white hover:bg-slate-900 cursor-pointer"
-            title="Reset filters"
-          >
-            Reset
-          </button>
-          <button
-            type="button"
-            onClick={refresh}
-            className="rounded-lg bg-blue-600 px-3 py-2.5 text-white cursor-pointer hover:bg-blue-700 "
-            disabled={loading}
-            title="Refresh"
-          >
-            <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-          </button>
-        </div>
-      </div>
-
-      {/* Bulk actions */}
-      {selected.size > 0 && (
-        <div className="mb-3 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 rounded-lg border border-blue-400/30 bg-blue-950/80 px-3 py-2.5">
-          <div className="text-sm text-slate-100">{selected.size} selected</div>
-          <div className="flex items-center gap-2 flex-wrap">
+    <div className="min-h-screen bg-gray-150 p-4 text-slate-900">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-6 rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 text-white shadow-2xl">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-white md:text-3xl">Recycle Bin</h1>
+              <p className="mt-2 max-w-2xl text-sm text-slate-300">
+                Deleted expenses stay here for 24 hours before they are removed automatically. You can restore or permanently delete them during that window.
+              </p>
+            </div>
             <button
               type="button"
-              onClick={() => restoreExpenses(Array.from(selected))}
-              className="inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+              onClick={refresh}
+              className="inline-flex items-center justify-center rounded-full bg-cyan-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
             >
-              <RotateCcw className="h-4 w-4" />
-              Restore
-            </button>
-            <button
-              type="button"
-              onClick={() => deleteForever(Array.from(selected))}
-              className="inline-flex items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
-            >
-              <Trash2 className="h-4 w-4" />
-              Delete forever
+              Refresh
             </button>
           </div>
         </div>
-      )}
 
-      {/* Table */}
-      <div className="overflow-x-auto rounded-t-xl border border-gray-200 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white">
-        <div className="min-w-[700px]">
-          <table className="min-w-full divide-y divide-white/10">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-200">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300"
-                    checked={allVisibleSelected}
-                    ref={(el) => {
-                      if (el) el.indeterminate = !allVisibleSelected && someVisibleSelected;
-                    }}
-                    onChange={(e) => applySelectAllVisible(e.target.checked)}
-                  />
-                </th>
-                <Th label="Date" sortKey="date" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
-                <Th label="Category" sortKey="category" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
-                <Th label="Description" sortKey="description" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
-                <Th label="Amount" sortKey="amount" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} align="right" />
-                <Th label="Deleted on" sortKey="deletedAt" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
-                <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-600">
-                  Actions
-                </th>
-              </tr>
-            </thead>
+        {error && (
+          <div className="mb-4 flex flex-col items-start gap-3 rounded-[1.25rem] border border-red-200 bg-red-50 p-4 text-red-700 md:flex-row md:items-center">
+            <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="font-medium">Failed to load</p>
+              <p className="text-sm">{error}</p>
+            </div>
+            <button
+              type="button"
+              onClick={refresh}
+              className="rounded-full bg-red-100 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-200"
+            >
+              Try again
+            </button>
+          </div>
+        )}
 
-            <tbody className="divide-y divide-white/10">
-              {loading &&
-                Array.from({ length: Math.min(5, pageSize) }).map((_, idx) => (
-                  <tr key={`skeleton-${idx}`} className="animate-pulse">
-                    <td className="px-4 py-4">
-                      <div className="h-4 w-4 rounded bg-gray-200" />
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="h-4 w-24 rounded bg-gray-200" />
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="h-4 w-20 rounded bg-gray-200" />
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="h-4 w-48 rounded bg-gray-200" />
-                    </td>
-                    <td className="px-4 py-4 text-right">
-                      <div className="ml-auto h-4 w-16 rounded bg-gray-200" />
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="h-4 w-28 rounded bg-gray-200" />
-                    </td>
-                    <td className="px-4 py-4 text-right">
-                      <div className="ml-auto h-8 w-28 rounded bg-gray-200" />
-                    </td>
-                  </tr>
-                ))}
+        <div className="mb-4 grid grid-cols-1 gap-3 lg:grid-cols-[1.3fr_0.8fr_0.8fr_0.8fr_auto]">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
+            <input
+              type="text"
+              placeholder="Search description or notes..."
+              className="w-full rounded-2xl border border-transparent bg-slate-900/90 py-2.5 pl-10 pr-3 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
 
-              {!loading && items.length === 0 && (
-                <tr>
-                  <td colSpan={7} className="px-4 py-8">
-                    <EmptyState />
-                  </td>
-                </tr>
-              )}
-
-              {!loading &&
-                items.map((item) => {
-                  const id = item?.id || item?._id || item?.ID || item?.Id;
-                  const checked = id ? selected.has(id) : false;
-                  return (
-                    <tr key={id || Math.random()}>
-                      <td className="px-4 py-3">
-                        {id ? (
-                          <input
-                            type="checkbox"
-                            className="h-4 w-4 rounded border-gray-300"
-                            checked={checked}
-                            onChange={() => toggleOne(id)}
-                          />
-                        ) : (
-                          <span className="text-xs text-gray-400">-</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
-                        {formatDateTime(item?.createdAt || item?.date)}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{item?.paymentMethod || item?.category || "-"}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        <div className="max-w-[42ch] truncate" title={item?.description || ""}>
-                          {item?.description || "-"}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-right">
-                        {formatCurrency(item?.rs || item?.amount)}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
-                        {formatDateTime(item?.deletedAt)}
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="inline-flex gap-2 flex-wrap">
-                          <button
-                            type="button"
-                            onClick={() => (id ? restoreExpenses([id]) : null)}
-                            className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm text-emerald-700 hover:bg-emerald-100"
-                            title="Restore"
-                          >
-                            <RotateCcw className="h-4 w-4" />
-                            Restore
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => (id ? deleteForever([id]) : null)}
-                            className="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-sm text-red-700 hover:bg-red-100"
-                            title="Delete forever"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Footer / pagination */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 bg-slate-950/80 px-4 py-3 rounded-b-xl text-slate-200">
-        <div className="text-sm text-slate-200">
-          Showing{" "}
-          <span className="font-medium">{items.length > 0 ? (page - 1) * pageSize + 1 : 0}</span>{" "}
-          to <span className="font-medium">{(page - 1) * pageSize + items.length}</span> of{" "}
-          <span className="font-medium">{total}</span> results
-        </div>
-
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-1">
-            <label htmlFor="pageSize" className="text-sm text-gray-600">
-              Rows:
-            </label>
+          <div className="relative">
+            <Filter className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
             <select
-              id="pageSize"
-              className="rounded-md border border-white/10 bg-slate-950/90 px-2 py-1 text-sm text-white"
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setPage(1);
-              }}
+              className="w-full cursor-pointer appearance-none rounded-2xl border border-transparent bg-slate-900/90 py-2.5 pl-10 pr-9 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
             >
-              {[10, 20, 50].map((n) => (
-                <option key={n} value={n}>
-                  {n}
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c === "all" ? "All categories" : c}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="inline-flex items-center gap-2">
+          <div className="relative">
+            <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
+            <input
+              type="date"
+              className="w-full cursor-pointer rounded-2xl border border-transparent bg-slate-900/90 py-2.5 pl-10 pr-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+
+          <div className="relative">
+            <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-300" />
+            <input
+              type="date"
+              className="w-full cursor-pointer rounded-2xl border border-transparent bg-slate-900/90 py-2.5 pl-10 pr-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+
+          <div className="flex gap-2">
             <button
               type="button"
-              disabled={page <= 1 || loading}
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className={`inline-flex items-center rounded-md border px-2 py-1.5 text-sm ${
-                page <= 1 || loading
-                  ? "border-slate-700 text-slate-500"
-                  : "border-white/10 text-slate-200 hover:bg-slate-900"
-              }`}
-              title="Previous"
+              onClick={() => {
+                setSearchTerm("");
+                setCategory("all");
+                setStartDate("");
+                setEndDate("");
+                setSortBy("deletedAt");
+                setSortDir("desc");
+                setPage(1);
+              }}
+              className="w-full rounded-2xl border border-white/10 bg-slate-900/90 px-3 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+              title="Reset filters"
             >
-              <ChevronLeft className="h-4 w-4" />
+              Reset
             </button>
-            <span className="text-sm text-gray-700">
-              Page <span className="font-medium">{page}</span> of{" "}
-              <span className="font-medium">{pages}</span>
-            </span>
             <button
               type="button"
-              disabled={page >= pages || loading}
-              onClick={() => setPage((p) => Math.min(pages, p + 1))}
-              className={`inline-flex items-center rounded-md border px-2 py-1.5 text-sm ${
-                page >= pages || loading
-                  ? "border-slate-700 text-slate-500"
-                  : "border-white/10 text-slate-200 hover:bg-slate-900"
-              }`}
-              title="Next"
+              onClick={refresh}
+              className="rounded-2xl bg-blue-600 px-3 py-2.5 text-white transition hover:bg-blue-700"
+              disabled={loading}
+              title="Refresh"
             >
-              <ChevronRight className="h-4 w-4" />
+              <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
             </button>
           </div>
         </div>
-      </div>
 
-      <ToastContainer position="bottom-center" closeOnClick newestOnTop limit={1} />
+        {selected.size > 0 && (
+          <div className="mb-3 flex flex-col flex-wrap items-center justify-between gap-3 rounded-[1.25rem] border border-cyan-400/30 bg-blue-950/80 px-3 py-2.5 sm:flex-row">
+            <div className="text-sm text-slate-100">{selected.size} selected</div>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => restoreExpenses(Array.from(selected))}
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Restore
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteForever(Array.from(selected))}
+                className="inline-flex items-center gap-2 rounded-full bg-red-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700"
+              >
+                <Trash2 className="h-4 w-4" />
+                Delete forever
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 shadow-2xl">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-white/10">
+              <thead className="bg-white/10">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-slate-300 bg-slate-900/80"
+                      checked={allVisibleSelected}
+                      ref={(el) => {
+                        if (el) el.indeterminate = !allVisibleSelected && someVisibleSelected;
+                      }}
+                      onChange={(e) => applySelectAllVisible(e.target.checked)}
+                    />
+                  </th>
+                  <Th label="Date" sortKey="date" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
+                  <Th label="Category" sortKey="category" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
+                  <Th label="Description" sortKey="description" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
+                  <Th label="Amount" sortKey="amount" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} align="right" />
+                  <Th label="Deleted on" sortKey="deletedAt" sortBy={sortBy} sortDir={sortDir} onSort={onHeaderSort} />
+                  <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-white/10">
+                {loading &&
+                  Array.from({ length: Math.min(5, pageSize) }).map((_, idx) => (
+                    <tr key={`skeleton-${idx}`} className="animate-pulse">
+                      <td className="px-4 py-4"><div className="h-4 w-4 rounded bg-white/20" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-24 rounded bg-white/20" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-20 rounded bg-white/20" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-48 rounded bg-white/20" /></td>
+                      <td className="px-4 py-4 text-right"><div className="ml-auto h-4 w-16 rounded bg-white/20" /></td>
+                      <td className="px-4 py-4"><div className="h-4 w-28 rounded bg-white/20" /></td>
+                      <td className="px-4 py-4 text-right"><div className="ml-auto h-8 w-28 rounded bg-white/20" /></td>
+                    </tr>
+                  ))}
+
+                {!loading && items.length === 0 && (
+                  <tr>
+                    <td colSpan={7} className="px-4 py-8">
+                      <EmptyState />
+                    </td>
+                  </tr>
+                )}
+
+                {!loading &&
+                  items.map((item) => {
+                    const id = item?.id || item?._id || item?.ID || item?.Id;
+                    const checked = id ? selected.has(id) : false;
+                    return (
+                      <tr key={id || Math.random()}>
+                        <td className="px-4 py-3">
+                          {id ? (
+                            <input
+                              type="checkbox"
+                              className="h-4 w-4 rounded border-slate-300 bg-slate-900/80"
+                              checked={checked}
+                              onChange={() => toggleOne(id)}
+                            />
+                          ) : (
+                            <span className="text-xs text-slate-400">-</span>
+                          )}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-100">
+                          {formatDateTime(item?.createdAt || item?.date)}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-200">{item?.paymentMethod || item?.category || "-"}</td>
+                        <td className="px-4 py-3 text-sm text-slate-200">
+                          <div className="max-w-[42ch] truncate" title={item?.description || ""}>
+                            {item?.description || "-"}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-right text-sm font-semibold text-cyan-300">
+                          {formatCurrency(item?.rs || item?.amount)}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-300">
+                          {formatDateTime(item?.deletedAt)}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="inline-flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => (id ? restoreExpenses([id]) : null)}
+                              className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-sm text-emerald-300 transition hover:bg-emerald-500/20"
+                              title="Restore"
+                            >
+                              <RotateCcw className="h-4 w-4" />
+                              Restore
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => (id ? deleteForever([id]) : null)}
+                              className="inline-flex items-center gap-1 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1.5 text-sm text-red-300 transition hover:bg-red-500/20"
+                              title="Delete forever"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-col items-center justify-between gap-3 rounded-[1.25rem] border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-200 shadow-lg sm:flex-row">
+          <div className="text-sm">
+            Showing <span className="font-medium">{items.length > 0 ? (page - 1) * pageSize + 1 : 0}</span> to <span className="font-medium">{(page - 1) * pageSize + items.length}</span> of <span className="font-medium">{total}</span> results
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1">
+              <label htmlFor="pageSize" className="text-sm text-slate-400">
+                Rows:
+              </label>
+              <select
+                id="pageSize"
+                className="rounded-md border border-white/10 bg-slate-950/90 px-2 py-1 text-sm text-white"
+                value={pageSize}
+                onChange={(e) => {
+                  setPageSize(Number(e.target.value));
+                  setPage(1);
+                }}
+              >
+                {[10, 20, 50].map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="inline-flex items-center gap-2">
+              <button
+                type="button"
+                disabled={page <= 1 || loading}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                className={`inline-flex items-center rounded-md border px-2 py-1.5 text-sm ${
+                  page <= 1 || loading
+                    ? "border-slate-700 text-slate-500"
+                    : "border-white/10 text-slate-200 hover:bg-slate-900"
+                }`}
+                title="Previous"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <span className="text-sm text-slate-300">
+                Page <span className="font-medium">{page}</span> of <span className="font-medium">{pages}</span>
+              </span>
+              <button
+                type="button"
+                disabled={page >= pages || loading}
+                onClick={() => setPage((p) => Math.min(pages, p + 1))}
+                className={`inline-flex items-center rounded-md border px-2 py-1.5 text-sm ${
+                  page >= pages || loading
+                    ? "border-slate-700 text-slate-500"
+                    : "border-white/10 text-slate-200 hover:bg-slate-900"
+                }`}
+                title="Next"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ToastContainer position="top-right" closeOnClick newestOnTop limit={1} />
       </div>
     </div>
   );
@@ -653,20 +631,16 @@ function Th({ label, sortKey, sortBy, sortDir, onSort, align = "left" }) {
   return (
     <th
       scope="col"
-      className={`px-4 py-3 text-${align} text-xs font-semibold uppercase tracking-wider text-gray-600 select-none`}
+      className={`px-4 py-3 text-${align} text-xs font-semibold uppercase tracking-[0.2em] text-slate-200 select-none`}
     >
       <button
         type="button"
         onClick={() => onSort(sortKey)}
-        className={`inline-flex items-center gap-1 ${
-          active ? "text-gray-900" : "text-gray-600 hover:text-gray-900"
-        }`}
+        className={`inline-flex items-center gap-1 ${active ? "text-white" : "text-slate-200 hover:text-white"}`}
       >
         {label}
         <span
-          className={`transition-transform ${active ? "opacity-100" : "opacity-0"} ${
-            active && sortDir === "desc" ? "rotate-180" : ""
-          }`}
+          className={`transition-transform ${active ? "opacity-100" : "opacity-0"} ${active && sortDir === "desc" ? "rotate-180" : ""}`}
           aria-hidden
         >
           ▲

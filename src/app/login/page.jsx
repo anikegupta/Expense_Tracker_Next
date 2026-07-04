@@ -87,7 +87,7 @@ export default function Login() {
 
             {/* Eye icon */}
             <span
-              className="absolute right-4 top-[52px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
+              className="absolute right-6 top-[58px] cursor-pointer text-slate-400 hover:text-cyan-400 select-none transition"
               onMouseDown={() => setShowPassword(true)}
               onMouseUp={() => setShowPassword(false)}
               onMouseLeave={() => setShowPassword(false)}
@@ -103,11 +103,11 @@ export default function Login() {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-4 justify-between pt-2">
+          <div className="flex gap-6 justify-between pt-2">
             <button
               type="button"
               disabled={loading}
-              className="flex-1 inline-flex items-center justify-center rounded-full bg-red-600 px-6 py-4 text-md font-semibold text-white transition hover:bg-red-700 hover:cursor-pointer disabled:opacity-60"
+              className="flex-1 inline-flex items-center justify-center rounded bg-red-600 px-4 py-4 text-md font-semibold text-white transition hover:bg-red-700 hover:cursor-pointer disabled:opacity-60"
               onClick={() => setLoginData({ email: "", password: "" })}
             >
               Reset
@@ -115,7 +115,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center rounded bg-cyan-500 px-4 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
             >
               {loading ? "Logging in..." : "Login"}
             </button>

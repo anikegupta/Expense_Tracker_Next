@@ -34,7 +34,7 @@ export const openRouterClient = {
             "X-Title": "Expense Tracker",
           },
           body: JSON.stringify({
-            model: "openai/gpt-4.1-mini",
+            model: "google/gemma-3-27b-it",
             messages,
             temperature: 0.2,
             max_tokens: 600,

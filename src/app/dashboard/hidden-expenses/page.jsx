@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getHiddenExpenses } from "../../../services/ExpenseService";
+import { getHiddenExpenses, deleteExpenses, updateExpense } from "../../../services/ExpenseService";
 import { toast } from "react-toastify";
 import { MdInfo, MdEdit, MdDelete } from "react-icons/md";
 import { AiOutlineEye } from "react-icons/ai";
@@ -104,20 +104,12 @@ function HiddenExpenses() {
 
   const handleUnhide = async (expenseId) => {
     try {
-      const response = await fetch(`/api/expenses/${expenseId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ hidden: false }),
-      });
-
-      if (response.ok) {
-        toast.success("Expense unhidden");
-        removeExpense(expenseId);
-      } else {
-        toast.error("Failed to unhide expense");
-      }
+      await updateExpense(expenseId, { hidden: false });
+      toast.success("Expense unhidden");
+      removeExpense(expenseId);
     } catch (error) {
-      toast.error("Error unhiding expense");
+      console.error(error);
+      toast.error(error.response?.data?.message || "Error unhiding expense");
     }
   };
 
@@ -139,18 +131,12 @@ function HiddenExpenses() {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`/api/expenses/${expenseId}`, {
-          method: "DELETE",
-        });
-
-        if (response.ok) {
-          toast.success("Expense deleted");
-          removeExpense(expenseId);
-        } else {
-          toast.error("Failed to delete expense");
-        }
+        const data = await deleteExpenses(expenseId);
+        toast.success(data.message || "Expense deleted");
+        removeExpense(expenseId);
       } catch (error) {
-        toast.error("Error deleting expense");
+        console.error(error);
+        toast.error(error.response?.data?.message || "Error deleting expense");
       }
     }
   };
@@ -172,7 +158,7 @@ function HiddenExpenses() {
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 value={searchKeyword}
                 type="text"
-                className="w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-3 text-sm text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                className="w-full rounded-3xl border border-transparent bg-slate-900/90 px-5 py-3 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                 placeholder="Search your hidden expenses"
               />
             </div>
@@ -181,24 +167,26 @@ function HiddenExpenses() {
           <div className="grid gap-4 lg:grid-cols-[repeat(4,minmax(0,1fr))]">
             <div className="flex flex-col gap-2">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Select min price</span>
-              <TextInput
+              <input
                 onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
                 onKeyDown={(e) => { if (e.key === "Enter") applyFilter(); }}
                 value={filters.minPrice}
                 id="minPrice"
-                sizing="sm"
+                type="number"
                 placeholder="Min Price"
+                className="rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Select max price</span>
-              <TextInput
+              <input
                 onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
                 onKeyDown={(e) => { if (e.key === "Enter") applyFilter(); }}
                 value={filters.maxPrice}
                 id="maxPrice"
-                sizing="sm"
+                type="number"
                 placeholder="Max Price"
+                className="rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
             <div className="flex flex-col gap-2">
@@ -206,7 +194,7 @@ function HiddenExpenses() {
               <input
                 type="date"
                 onChange={(e) => setFilters({ ...filters, fromDate: e.target.value })}
-                className="rounded-2xl border border-white/10 bg-slate-900/90 p-2 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                className="rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                 value={filters.fromDate}
               />
             </div>
@@ -215,7 +203,7 @@ function HiddenExpenses() {
               <input
                 type="date"
                 onChange={(e) => setFilters({ ...filters, toDate: e.target.value })}
-                className="rounded-2xl border border-white/10 bg-slate-900/90 p-2 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                className="rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                 value={filters.toDate}
               />
             </div>
@@ -225,14 +213,14 @@ function HiddenExpenses() {
             <button
               type="button"
               onClick={applyFilter}
-              className="cursor-pointer rounded-full bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-cyan-400"
+              className="cursor-pointer rounded bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-cyan-400"
             >
               Apply Filter
             </button>
             <button
               type="button"
               onClick={clearFilter}
-              className="cursor-pointer rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
+              className="cursor-pointer rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
             >
               Clear Filter
             </button>
@@ -268,25 +256,25 @@ function HiddenExpenses() {
               <div className="mt-5 flex flex-wrap gap-2">
                 <button
                   onClick={() => handleUnhide(expense._id)}
-                  className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
+                  className="inline-flex items-center gap-2 rounded bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
                 >
                   <AiOutlineEye className="h-4 w-4" />
                   Unhide
                 </button>
 
-                <button
+                {/* <button
                   onClick={() => handleEdit(expense)}
                   className="inline-flex items-center gap-2 rounded-full bg-blue-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-400"
                 >
                   <MdEdit className="h-4 w-4" />
                   Edit
-                </button>
+                </button> */}
 
                 <button
                   onClick={() => handleDelete(expense._id)}
-                  className="inline-flex items-center gap-2 rounded-full bg-red-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-400"
+                  className="inline-flex items-center gap-2 rounded bg-red-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-400"
                 >
-                  <MdDelete className="h-4 w-4" />
+                  <MdDelete className="h-3 w-4" />
                   Delete
                 </button>
               </div>
@@ -296,10 +284,10 @@ function HiddenExpenses() {
       )}
 
       {!loading && expenses.length <= 0 && (
-        <div className="flex flex-col justify-center mt-10 items-center gap-2 rounded-lg border border-dashed border-gray-300 bg-white py-12">
+        <div className="flex flex-col justify-center mt-10 items-center gap-2 rounded-lg border border-dashed border-gray-300  bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 py-12">
           <MdInfo className="text-red-400" size={38} />
-          <h1 className="text-center text-3xl font-semibold text-gray-500">No hidden expenses found</h1>
-          <p className="text-gray-600">Try adjusting your filters or mark some expenses as hidden.</p>
+          <h1 className="text-center text-3xl font-semibold text-white">No hidden expenses found</h1>
+          <p className="text-white">Try adjusting your filters or mark some expenses as hidden.</p>
           <button
             type="button"
             onClick={loadHiddenExpenses}
@@ -312,12 +300,13 @@ function HiddenExpenses() {
 
       {showModal && editingExpense && (
         <UpdateExpenseModal
+          open={showModal}
           expense={editingExpense}
           onClose={() => {
             setShowModal(false);
             setEditingExpense(null);
           }}
-          onUpdate={() => {
+          onSuccess={() => {
             setShowModal(false);
             setEditingExpense(null);
             loadHiddenExpenses();

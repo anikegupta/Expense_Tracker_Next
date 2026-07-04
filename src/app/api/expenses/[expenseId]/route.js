@@ -29,10 +29,21 @@ const updateExpenseHandler = async (request) => {
     const expenseId = request.url.split('/').pop();
     const { title, description, rs, hidden, paymentMethod } = await request.json();
 
-    const updatedExpense = await Expense.findByIdAndUpdate(
-      expenseId,
-      { title, description, rs, hidden, paymentMethod },
-      { new: true } // Return updated document
+    const updates = {};
+    if (title !== undefined) updates.title = title;
+    if (description !== undefined) updates.description = description;
+    if (rs !== undefined) updates.rs = rs;
+    if (hidden !== undefined) updates.hidden = hidden;
+    if (paymentMethod !== undefined) updates.paymentMethod = paymentMethod;
+
+    if (Object.keys(updates).length === 0) {
+      return NextResponse.json({ message: "No update fields provided" }, { status: 400 });
+    }
+
+    const updatedExpense = await Expense.findOneAndUpdate(
+      { _id: expenseId, userId: request.userId },
+      updates,
+      { new: true }
     );
 
     if (!updatedExpense) {

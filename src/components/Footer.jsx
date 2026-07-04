@@ -14,6 +14,7 @@ export default function Footer() {
             A simple MERN app with AI assistance to track your daily expenses, analyze spending, and stay on budget.
           </p>
         </div>
+        <div className="w-1/10"></div>
         {/* Quick Links */}
         <div className="flex flex-col gap-2 w-1/3">
           <h2 className="text-xl md:text-2xl font-semibold bg-gradient-to-r from-cyan-200 via-white to-cyan-400 bg-clip-text text-transparent">

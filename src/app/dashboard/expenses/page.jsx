@@ -146,7 +146,7 @@ function ViewExpenses() {
           <div className="grid gap-4 xl:grid-cols-[repeat(4,minmax(0,1fr))]">
             <div className="flex flex-col gap-2">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Select min price</span>
-              <TextInput
+              <input
                 onChange={(e) => {
                   setFilters({
                     ...filters,
@@ -160,13 +160,14 @@ function ViewExpenses() {
                 }}
                 value={filters.minPrice}
                 id="minPrice"
-                sizing="sm"
+                type="number"
                 placeholder="Min Price"
+                className="rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Select max price</span>
-              <TextInput
+              <input
                 onChange={(e) => {
                   setFilters({
                     ...filters,
@@ -180,8 +181,9 @@ function ViewExpenses() {
                 }}
                 value={filters.maxPrice}
                 id="maxPrice"
-                sizing="sm"
+                type="number"
                 placeholder="Max Price"
+                className="rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white placeholder:text-slate-400 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
 
@@ -195,7 +197,7 @@ function ViewExpenses() {
                     fromDate: e.target.value,
                   });
                 }}
-                className="rounded-2xl border border-white/10 bg-slate-900/90 p-2 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                className="rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-2.5 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
 
@@ -209,7 +211,7 @@ function ViewExpenses() {
                     toDate: e.target.value,
                   });
                 }}
-                className="rounded-2xl border border-white/10 bg-slate-900/90 p-2 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                className="rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-2.5 text-sm text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
               />
             </div>
           </div>
@@ -218,14 +220,14 @@ function ViewExpenses() {
             <button
               type="button"
               onClick={applyFilter}
-              className="cursor-pointer rounded-full bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-cyan-400"
+              className="cursor-pointer rounded bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-cyan-400"
             >
               Apply Filter
             </button>
             <button
               type="button"
               onClick={clearFilter}
-              className="cursor-pointer rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
+              className="cursor-pointer rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
             >
               Clear Filter
             </button>
