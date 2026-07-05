@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { AiFillRobot } from "react-icons/ai";
+import { MdOutlineExpandMore } from "react-icons/md";
 import ExpenseView from "./user/ExpenseView";
 
 function formatTime(dateLike) {
@@ -129,7 +130,7 @@ const ChatAssistant = () => {
             <div className="flex items-center gap-1 text-xs text-emerald-400">{assistant.status}</div>
           </div>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-xs text-white/60">Secure • Private • Fast</div>
+        <div className="hidden sm:flex items-center gap-2 text-xs text-white/80">Secure • Private • Fast</div>
       </div>
 
       <div ref={listRef} className="h-[60vh] overflow-y-auto px-3 sm:px-5 py-4 bg-transparent">
@@ -178,12 +179,15 @@ const ChatAssistant = () => {
         </div>
       </div>
 
-      <div className="px-3 sm:px-5 py-3 border-t border-white/10 bg-slate-900/80">
+      <div className="px-3 sm:px-5 py-3 border-t border-white/10 bg-slate-900/80 rounded-[1.5rem]">
         <div className="flex items-end gap-2">
           <div className="flex-1">
             <textarea ref={textRef} value={input} onChange={(e)=>setInput(e.target.value)} onKeyDown={onKeyDown} rows={1} placeholder="Message the assistant…" className="w-full resize-none rounded-2xl border border-white/10 bg-slate-900 px-3 py-2 text-sm text-white" />
             <div className="mt-1 text-[11px] text-white/60">Press Enter to send • Shift + Enter for new line</div>
           </div>
+          <button type="button" className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gray-600 text-white shadow-sm ring-1 ring-white/10 transition hover:bg-gray-500 mb-5 cursor-pointer" title="Expand" aria-label="Expand textarea">
+            <MdOutlineExpandMore className="h-5 w-5" />
+          </button>
           <button onClick={sendMessage} disabled={!input.trim()} className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500 text-slate-950 shadow-sm ring-1 ring-white/10 transition hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed mb-5 cursor-pointer" title="Send" aria-label="Send message">
             <FiSend className="h-5 w-5" />
           </button>
