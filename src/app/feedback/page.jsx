@@ -36,11 +36,11 @@ export default function FeedbackPage() {
 
     try {
       await emailjs.send(serviceId, templateId, {
-        user_name: name,
-        user_email: email,
-        subject,
-        message,
-      }, publicKey)
+  name,
+  email,
+  title: subject,
+  message,
+}, publicKey);
 
       setStatus({ type: "success", message: "Thank you! Your feedback has been sent." })
       setName("")

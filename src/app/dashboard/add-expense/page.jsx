@@ -93,7 +93,6 @@ const AddExpense = () => {
               name="rs"
               value={formData.rs}
               onChange={handleChange}
-              min={0}
               step="1"
               required
               placeholder="Enter amount"

@@ -84,10 +84,11 @@ const UserProfile = () => {
     return <p className="text-center text-gray-500 mt-10">Loading...</p>;
 
   return (
-    <div className="min-h-screen bg-gray-150 p-4">
+    <div className="min-h-screen  p-4">
       <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 text-white shadow-2xl backdrop-blur-xl">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="flex flex-col items-center gap-4 lg:items-start">
+        <div className="flex flex-row gap-5  lg:items-start lg:justify-between ">
+          <div className="w-1/10"></div>
+          <div className="flex flex-col items-center justify-center gap-3 ">
             <div className="relative group cursor-pointer">
               {form.avatar ? (
                 <img
@@ -103,7 +104,7 @@ const UserProfile = () => {
 
               {isEditing && (
                 <>
-                  <label className="absolute bottom-2 right-12 cursor-pointer rounded-full bg-cyan-500 p-2 text-sm text-white shadow-md transition hover:bg-cyan-400">
+                  <label className="absolute bottom-2 right-15 cursor-pointer rounded-full bg-cyan-500 p-2 text-sm text-white shadow-md transition hover:bg-cyan-400">
                     <FaPen size={14} />
                     <input
                       type="file"
@@ -116,7 +117,7 @@ const UserProfile = () => {
                   {form.avatar && (
                     <button
                       onClick={handleDeletePhoto}
-                      className="absolute bottom-2 right-2 rounded-full bg-red-600 p-2 text-white shadow-md transition hover:bg-red-500"
+                      className="absolute bottom-2 right-6 rounded-full bg-red-600 p-2 text-white shadow-md transition hover:bg-red-500"
                     >
                       <FaTrash size={14} />
                     </button>
@@ -125,7 +126,7 @@ const UserProfile = () => {
               )}
             </div>
 
-            <div>
+            <div className="flex flex-col items-center w-70 gap-1">
               {!isEditing ? (
                 <h2 className="text-3xl font-semibold text-white">{profile.username}</h2>
               ) : (
@@ -162,7 +163,7 @@ const UserProfile = () => {
               <>
                 <button
                   onClick={handleSave}
-                  className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400"
+                  className="rounded cursor-pointer bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400"
                 >
                   Save
                 </button>
@@ -171,7 +172,7 @@ const UserProfile = () => {
                     setIsEditing(false);
                     setForm(profile);
                   }}
-                  className="rounded-full bg-slate-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-600"
+                  className="rounded cursor-pointer bg-slate-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-600"
                 >
                   Cancel
                 </button>
