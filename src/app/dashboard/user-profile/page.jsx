@@ -192,8 +192,8 @@ const UserProfile = () => {
               <p className="mt-1 font-medium text-white">{profile.email}</p>
             </div>
           </div>
-          <p className="mt-4 text-sm text-slate-300">
-            Manage your profile settings and personal information from this card.
+          <p className="mt-4 text-sm text-slate-300 ">
+            Manage your profile settings and personal information here
           </p>
         </div>
       </div>
