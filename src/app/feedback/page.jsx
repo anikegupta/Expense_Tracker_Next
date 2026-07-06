@@ -1,166 +1,221 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import emailjs from "@emailjs/browser"
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 export default function FeedbackPage() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [subject, setSubject] = useState("")
-  const [message, setMessage] = useState("")
-  const [status, setStatus] = useState(null)
-  const [isSending, setIsSending] = useState(false)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
+  const [isSending, setIsSending] = useState(false);
+
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
   const handleCancel = () => {
-    setName("")
-    setEmail("")
-    setSubject("")
-    setMessage("")
-    setStatus(null)
-  }
-
-  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
-  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+    setName("");
+    setEmail("");
+    setSubject("");
+    setMessage("");
+    setStatus(null);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setStatus(null)
+    e.preventDefault();
+    setStatus(null);
 
     if (!serviceId || !templateId || !publicKey) {
-      setStatus({ type: "error", message: "EmailJS is not configured. Set NEXT_PUBLIC_EMAILJS_SERVICE_ID, NEXT_PUBLIC_EMAILJS_TEMPLATE_ID and NEXT_PUBLIC_EMAILJS_PUBLIC_KEY." })
-      return
+      setStatus({
+        type: "error",
+        message: "Email service is not configured.",
+      });
+      return;
     }
 
-    setIsSending(true)
+    setIsSending(true);
 
     try {
-      await emailjs.send(serviceId, templateId, {
-  name,
-  email,
-  title: subject,
-  message,
-}, publicKey);
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name,
+          email,
+          title: subject,
+          message,
+        },
+        publicKey
+      );
 
-      setStatus({ type: "success", message: "Thank you! Your feedback has been sent." })
-      setName("")
-      setEmail("")
-      setSubject("")
-      setMessage("")
-    } catch (error) {
-      console.error("EmailJS send error:", error)
-      setStatus({ type: "error", message: "Unable to send feedback right now. Please try again later." })
+      setStatus({
+        type: "success",
+        message: "Thank you! Your feedback has been sent.",
+      });
+
+      handleCancel();
+    } catch {
+      setStatus({
+        type: "error",
+        message: "Unable to send feedback right now.",
+      });
     } finally {
-      setIsSending(false)
+      setIsSending(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white">
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <div className="grid gap-48 lg:grid-cols-[0.9fr_1.1fr] ">
-          <div className="space-y-6 mt-10">
-            {/* <span className="inline-flex rounded-full bg-cyan-500/20 px-4 py-1 text-sm uppercase tracking-[0.3em] text-cyan-200">Feedback & support</span> */}
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Help us improve Pocket Guard.</h1>
-            <p className="max-w-2xl text-slate-300 leading-relaxed text-lg">
-              Share your experience, request new features, or report issues. Your feedback helps us make the app easier to use and more powerful for everyday budgeting.
-            </p>
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-8 mt-3 shadow-2xl backdrop-blur-xl">
-              <h2 className="text-2xl font-semibold text-white mb-3">What happens next?</h2>
-              <p className="text-slate-300 leading-relaxed ">
-                Your message is routed securely through EmailJS and delivered directly to our support inbox. We typically respond within one business day.
+    <div className="min-h-screen pt-16 bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white">
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16">
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 xl:gap-24 items-center">
+
+          {/* Left Section */}
+
+          <div className="space-y-8 text-center xl:text-left">
+
+            <div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+                Help us improve Pocket Guard.
+              </h1>
+
+              <p className="mt-5 text-slate-300 text-base sm:text-lg leading-8">
+                Share your experience, request new features, or report bugs.
+                Every suggestion helps us build a better expense tracker.
               </p>
             </div>
+
+            <div className="rounded-3xl border border-white/10 bg-white/5 p-6 lg:p-8 backdrop-blur-xl shadow-xl">
+
+              <h2 className="text-2xl font-semibold mb-4">
+                What happens next?
+              </h2>
+
+              <p className="text-slate-300 leading-7">
+                Your message is securely delivered through EmailJS directly to
+                our inbox. We usually reply within one business day.
+              </p>
+
+            </div>
+
           </div>
 
-          <form onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-8 shadow-2xl backdrop-blur-xl">
-            <div className="space-y-6">
-              <div>
-                <label htmlFor="name" className="text-lg font-medium text-slate-200">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  placeholder="Your name"
-                  className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
-                />
-              </div>
+          {/* Form */}
 
-              <div>
-                <label htmlFor="email" className="text-lg font-medium text-slate-200">
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="you@example.com"
-                  className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
-                />
-              </div>
+          <div className="w-full max-w-2xl mx-auto xl:mt-8 2xl:mt-0">
 
-              <div>
-                <label htmlFor="subject" className="text-lg font-medium text-slate-200">
-                  Subject
-                </label>
-                <input
-                  id="subject"
-                  type="text"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  required
-                  placeholder="Feature request, bug report, or general feedback"
-                  className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
-                />
-              </div>
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-[30px] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 shadow-2xl backdrop-blur-xl p-5 sm:p-6 lg:p-8"
+            >
 
-              <div>
-                <label htmlFor="message" className="text-lg font-medium text-slate-200">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                  rows={3}
-                  placeholder="Tell us how we can improve Pocket Guard..."
-                  className="mt-3 w-full rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 text-white outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
-                />
-              </div>
+              <div className="space-y-5">
 
-              {status && (
-                <div className={`rounded-3xl px-5 py-4 text-md ${status.type === "success" ? "bg-emerald-500/15 text-emerald-200" : "bg-rose-500/15 text-rose-200"}`}>
-                  {status.message}
+                <div>
+                  <label className="block mb-2 font-medium">
+                    Name
+                  </label>
+
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
+                    placeholder="Your name"
+                    className="w-full rounded-2xl bg-slate-900 border border-white/10 px-5 py-3.5 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                  />
                 </div>
-              )}
 
-              <div className="flex gap-10 justify-between">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 items-center justify-center rounded bg-red-600 px-1 py-4 text-md font-semibold text-white transition hover:bg-red-700 hover:cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSending}
-                  className="flex-1 inline-flex items-center justify-center rounded bg-cyan-500 px-1 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60 hover:cursor-pointer"
-                >
-                  {isSending ? "Sending feedback..." : "Send feedback"}
-                </button>
+                <div>
+                  <label className="block mb-2 font-medium">
+                    Email Address
+                  </label>
+
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full rounded-2xl bg-slate-900 border border-white/10 px-5 py-3.5 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 font-medium">
+                    Subject
+                  </label>
+
+                  <input
+                    type="text"
+                    required
+                    value={subject}
+                    onChange={(e)=>setSubject(e.target.value)}
+                    placeholder="Feature request, bug report..."
+                    className="w-full rounded-2xl bg-slate-900 border border-white/10 px-5 py-3.5 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-2 font-medium">
+                    Message
+                  </label>
+
+                  <textarea
+                    rows={6}
+                    required
+                    value={message}
+                    onChange={(e)=>setMessage(e.target.value)}
+                    placeholder="Tell us how we can improve Pocket Guard..."
+                    className="w-full rounded-2xl resize-none bg-slate-900 border border-white/10 px-5 py-4 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                  />
+                </div>
+
+                {status && (
+                  <div
+                    className={`rounded-xl px-4 py-3 ${
+                      status.type === "success"
+                        ? "bg-green-500/20 text-green-200"
+                        : "bg-red-500/20 text-red-200"
+                    }`}
+                  >
+                    {status.message}
+                  </div>
+                )}
+
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="w-full sm:flex-1 rounded-xl bg-red-600 py-3.5 font-semibold hover:bg-red-700 transition"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isSending}
+                    className="w-full sm:flex-1 rounded-xl bg-cyan-500 py-3.5 font-semibold text-slate-900 hover:bg-cyan-400 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {isSending ? "Sending..." : "Send Feedback"}
+                  </button>
+
+                </div>
+
               </div>
-            </div>
-          </form>
+
+            </form>
+
+          </div>
+
         </div>
+
       </div>
+
     </div>
-  )
+  );
 }
