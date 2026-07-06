@@ -13,7 +13,7 @@ import { TextInput } from "flowbite-react";
 const formatCurrency = (value) =>
   new Intl.NumberFormat(undefined, {
     style: "currency",
-    currency: "USD",
+    currency: "INR",
     maximumFractionDigits: 2,
   }).format(Number(value || 0));
 

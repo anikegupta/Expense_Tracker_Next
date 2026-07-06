@@ -10,7 +10,7 @@ export default function Page() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 text-white max-w-sreen">
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 py-16 flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1 text-center md:text-left space-y-6">
