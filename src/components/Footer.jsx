@@ -44,15 +44,12 @@ export default function Footer() {
       <div className="flex flex-col gap-3">
 
         <a
-  href="https://mail.google.com/mail/?view=cm&fs=1&to=aniketgupta3625@gmail.com&su=Pocket%20Guard%20Support&body=Hi%20Aniket,%0A%0AI%20would%20like%20to%20contact%20you%20regarding%20Pocket%20Guard.%0A%0APlease%20find%20my%20query%20below:%0A%0A"
-  target="_blank"
-  rel="noopener noreferrer"
+  href="mailto:aniketgupta3625@gmail.com?subject=Pocket%20Guard%20Support&body=Hi%20Aniket,%0A%0AI%20would%20like%20to%20contact%20you%20regarding%20Pocket%20Guard.%0A%0A"
   className="flex items-center justify-center lg:justify-start gap-2 hover:text-cyan-400 transition"
 >
-
-          <Mail size={16} />
-          <span>Gmail</span>
-        </a>
+  <Mail size={16} />
+  <span>Gmail</span>
+</a>
 
         <a
           href="https://github.com/anikegupta"
