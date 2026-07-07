@@ -51,8 +51,8 @@ export default function Signup() {
   const passwordMismatch = formData.confirmPassword && formData.password !== formData.confirmPassword;
 
   return (
-    <div className="flex justify-center bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 px-4">
-      <form noValidate onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] p-8 shadow-2xl backdrop-blur-xl mt-20 mb-10">
+    <div className="signup-page flex justify-center bg-gradient-to-b from-blue-950 via-blue-900 to-blue-800 px-4">
+      <form noValidate onSubmit={handleSubmit} className="signup-card rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-[350px] sm:w-[400px] md:w-[450px] lg:w-[500px] p-8 shadow-2xl backdrop-blur-xl mt-20 mb-10">
         <div className="space-y-6">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white">

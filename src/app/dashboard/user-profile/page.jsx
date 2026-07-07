@@ -84,10 +84,9 @@ const UserProfile = () => {
     return <p className="text-center text-gray-500 mt-10">Loading...</p>;
 
   return (
-    <div className="min-h-screen  p-4">
-      <div className="mx-auto max-w-3xl rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 text-white shadow-2xl backdrop-blur-xl">
-        <div className="flex flex-row gap-5  lg:items-start lg:justify-between ">
-          <div className="w-1/10"></div>
+   <div className="ipad-pro-center min-h-screen pt-20 pb-8 px-4 sm:px-6 md:flex md:items-center md:justify-center lg:block">
+     <div className="mx-auto w-full max-w-4xl rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-5 sm:p-6 md:p-8 text-white shadow-2xl backdrop-blur-xl md:my-auto">
+        <div className="profile-wrapper flex flex-col md:flex-col lg:flex-row items-center lg:items-start justify-between gap-6 md:gap-8">
           <div className="flex flex-col items-center justify-center gap-3 ">
             <div className="relative group cursor-pointer">
               {form.avatar ? (
@@ -126,7 +125,7 @@ const UserProfile = () => {
               )}
             </div>
 
-            <div className="flex flex-col items-center w-70 gap-1">
+            <div className="flex flex-col items-center w-full max-w-sm gap-2 text-center">
               {!isEditing ? (
                 <h2 className="text-3xl font-semibold text-white">{profile.username}</h2>
               ) : (
@@ -151,11 +150,11 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3 lg:justify-end">
+          <div className="profile-buttons w-full lg:w-auto flex flex-col sm:flex-row gap-3 justify-center">
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="rounded bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400 cursor-pointer"
+                className="w-full sm:w-auto rounded-lg bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
               >
                 Edit Profile
               </button>
@@ -163,7 +162,7 @@ const UserProfile = () => {
               <>
                 <button
                   onClick={handleSave}
-                  className="rounded cursor-pointer bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-400"
+                 className="w-full sm:w-auto rounded-lg bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-400"
                 >
                   Save
                 </button>
@@ -172,7 +171,7 @@ const UserProfile = () => {
                     setIsEditing(false);
                     setForm(profile);
                   }}
-                  className="rounded cursor-pointer bg-slate-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-600"
+                  className="w-full sm:w-auto rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-600"
                 >
                   Cancel
                 </button>
