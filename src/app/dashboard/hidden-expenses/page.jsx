@@ -142,7 +142,7 @@ function HiddenExpenses() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-150 p-4">
+    <div className="hidden-expenses-page min-h-screen bg-gray-150 p-4">
       <div className="mb-6 rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 shadow-2xl backdrop-blur-xl">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -152,13 +152,13 @@ function HiddenExpenses() {
                 Review your hidden transactions. Unhide, edit, or delete them as needed.
               </p>
             </div>
-            <div className="flex-1 max-w-xl">
+            <div className="w-full lg:flex-1">
               <label className="mb-2 block text-sm font-medium text-slate-200">Search hidden expenses</label>
               <input
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 value={searchKeyword}
                 type="text"
-                className="w-full rounded-3xl border border-transparent bg-slate-900/90 px-5 py-3 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                className="w-full rounded-2xl border border-transparent bg-slate-900/90 px-4 py-2.5 text-sm text-white placeholder:text-slate-400 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                 placeholder="Search your hidden expenses"
               />
             </div>
@@ -261,14 +261,6 @@ function HiddenExpenses() {
                   <AiOutlineEye className="h-4 w-4" />
                   Unhide
                 </button>
-
-                {/* <button
-                  onClick={() => handleEdit(expense)}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-400"
-                >
-                  <MdEdit className="h-4 w-4" />
-                  Edit
-                </button> */}
 
                 <button
                   onClick={() => handleDelete(expense._id)}

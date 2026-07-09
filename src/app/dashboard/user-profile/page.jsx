@@ -132,7 +132,7 @@ const UserProfile = () => {
                 <input
                   type="text"
                   value={form.username}
-                  className="w-full rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-2 text-center text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
+                  className="w-full rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-1.5 text-center text-white outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30"
                   onChange={(e) => setForm({ ...form, username: e.target.value })}
                 />
               )}
@@ -150,11 +150,11 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="profile-buttons w-full lg:w-auto flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="profile-buttons w-full lg:w-auto flex flex-col sm:flex-row gap-3 justify-center ">
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="w-full sm:w-auto rounded-lg bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
+                className="w-full sm:w-auto rounded-lg bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400 hover:cursor-pointer"
               >
                 Edit Profile
               </button>
@@ -162,7 +162,7 @@ const UserProfile = () => {
               <>
                 <button
                   onClick={handleSave}
-                 className="w-full sm:w-auto rounded-lg bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-400"
+                 className="w-full sm:w-auto rounded-lg bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-400 hover:cursor-pointer"
                 >
                   Save
                 </button>
@@ -171,7 +171,7 @@ const UserProfile = () => {
                     setIsEditing(false);
                     setForm(profile);
                   }}
-                  className="w-full sm:w-auto rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-600"
+                  className="w-full sm:w-auto rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-600 hover:cursor-pointer"
                 >
                   Cancel
                 </button>

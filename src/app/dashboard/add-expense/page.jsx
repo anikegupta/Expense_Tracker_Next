@@ -52,12 +52,12 @@ const AddExpense = () => {
     <motion.div
       initial={{ y: 6, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="flex items-center justify-center min-h-screen bg-gray-150 px-4"
+      className="add-expense-page flex items-center justify-center min-h-screen bg-gray-150 px-4"
     >
-      <form onSubmit={handleSubmit} className="rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-full max-w-md p-8 shadow-2xl backdrop-blur-xl">
-        <div className="space-y-6">
+      <form onSubmit={handleSubmit} className="add-expense-card rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 w-full max-w-md p-8 shadow-2xl backdrop-blur-xl">
+        <div className="add-expense-grid space-y-6">
           {/* Header */}
-          <div className="text-center">
+          <div className="add-expense-header text-center">
             <h2 className="text-3xl font-bold text-white">Add Expense</h2>
             <p className="text-slate-300 text-sm mt-2">
               Record a new transaction with details and payment method
@@ -65,13 +65,13 @@ const AddExpense = () => {
           </div>
 
           {/* Amount preview */}
-          <div className="flex items-center gap-1 text-emerald-400 bg-emerald-500/15 ring-1 ring-inset ring-emerald-500/30 px-4 py-3 rounded-3xl text-sm">
+          <div className="add-expense-preview flex items-center gap-1 text-emerald-400 bg-emerald-500/15 ring-1 ring-inset ring-emerald-500/30 px-4 py-3 rounded-3xl text-sm">
             <MdOutlineCurrencyRupee className="h-5 w-5" />
             <span>You will spend: <span className="font-semibold">{previewAmount}</span></span>
           </div>
 
           {/* Title */}
-          <div>
+          <div className="add-expense-field">
             <label className="text-lg font-medium text-slate-200">Title</label>
             <input
               id="title"
@@ -85,7 +85,7 @@ const AddExpense = () => {
           </div>
 
           {/* Amount */}
-          <div>
+          <div className="add-expense-field">
             <label className="text-lg font-medium text-slate-200">Amount (₹)</label>
             <input
               id="rs"
@@ -101,7 +101,7 @@ const AddExpense = () => {
           </div>
 
           {/* Payment Method */}
-          <div>
+          <div className="add-expense-field">
             <label className="text-lg font-medium text-slate-200">Payment Method</label>
             <select
               id="paymentMethod"
@@ -119,7 +119,7 @@ const AddExpense = () => {
           </div>
 
           {/* Visibility */}
-          <div >
+          <div className="add-expense-field add-expense-visibility">
             <label className="text-lg font-medium text-slate-200 block mb-3">Visibility</label>
             <div className="rounded-3xl border border-white/10 bg-slate-900/90 px-5 py-4 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30">
               <span className="text-slate-300 text-sm">Mark as Hidden</span>
@@ -151,7 +151,7 @@ const AddExpense = () => {
           </div>
 
           {/* Description */}
-          <div>
+          <div className="add-expense-field add-expense-description">
             <label className="text-lg font-medium text-slate-200">Description</label>
             <textarea
               id="description"
@@ -168,7 +168,7 @@ const AddExpense = () => {
           {/* Submit */}
           <button
             type="submit"
-            className=" inline-flex items-center justify-center rounded bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 cursor-pointer"
+            className="add-expense-submit inline-flex items-center justify-center rounded bg-cyan-500 px-6 py-4 text-md font-semibold text-slate-950 transition hover:bg-cyan-400 cursor-pointer"
           >
             Save Expense
           </button>

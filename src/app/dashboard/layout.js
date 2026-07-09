@@ -42,7 +42,7 @@ function DashboardLayout({ children }) {
       <SideMenu />
 
       {/* Main content */}
-      <main className="mt-16 md:p-10">
+      <main className="dashboard-main mt-16 md:p-10">
         {children}
       </main>
     </div>

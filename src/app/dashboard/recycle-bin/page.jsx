@@ -310,8 +310,8 @@ export default function RecycleBin() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-150 p-4 text-slate-900">
-      <div className="mx-auto max-w-7xl">
+    <div className="recycle-bin-page min-h-screen bg-gray-150 p-4 text-slate-900">
+      <div className="recycle-bin-container mx-auto max-w-7xl">
         <div className="mb-6 rounded-[2rem] border border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 p-6 text-white shadow-2xl">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>

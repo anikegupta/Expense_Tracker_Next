@@ -127,7 +127,7 @@ function ViewExpenses() {
                 Review your transactions, refine them with filters, and keep your budget in check.
               </p>
             </div>
-            <div className="flex-1 max-w-xl">
+            <div className="view-expense-search flex-1 max-w-xl">
               <label className="mb-2 block text-sm font-medium text-slate-200">Search expenses</label>
               <input
                 onChange={(e) => {
