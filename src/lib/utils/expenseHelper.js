@@ -1,94 +1,171 @@
-import Expense from '@/models/Expense';
-import mongoose from 'mongoose';
+import Expense from "@/models/Expense";
+import mongoose from "mongoose";
 
 export const getExpenseData = async (userId) => {
-    console.log("Getting expense data for user:", userId);
+  const objectId = new mongoose.Types.ObjectId(userId);
 
-    // Last 7 days
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 6);
-    startDate.setHours(0, 0, 0, 0);
-    endDate.setHours(23, 59, 59, 999);
+  // -----------------------------
+  // Current Week
+  // -----------------------------
+  const endDate = new Date();
+  endDate.setHours(23, 59, 59, 999);
 
-    console.log("Date range:", startDate, "to", endDate);
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - 6);
+  startDate.setHours(0, 0, 0, 0);
 
-    const total = await Expense.aggregate([
-        { 
-            $match: { 
-                userId: new mongoose.Types.ObjectId(userId), 
-                createdAt: { $gte: startDate, $lte: endDate } 
-            }
+  // -----------------------------
+  // Previous Week
+  // -----------------------------
+  const previousEnd = new Date(startDate);
+  previousEnd.setDate(previousEnd.getDate() - 1);
+  previousEnd.setHours(23, 59, 59, 999);
+
+  const previousStart = new Date(previousEnd);
+  previousStart.setDate(previousStart.getDate() - 6);
+  previousStart.setHours(0, 0, 0, 0);
+
+  // ==========================
+  // Current Week Total
+  // ==========================
+
+  const currentWeek = await Expense.aggregate([
+    {
+      $match: {
+        userId: objectId,
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
         },
-        { $group: { _id: null, total: { $sum: "$rs" } } }
-    ]);
-
-    console.log("Total for week:", total);
-
-    // Previous 7 days
-    const endDateP = new Date(startDate);
-    endDateP.setDate(endDateP.getDate() - 1);
-    endDateP.setHours(23, 59, 59, 999);
-    const startDateP = new Date(endDateP);
-    startDateP.setDate(startDateP.getDate() - 6);
-    startDateP.setHours(0, 0, 0, 0);
-
-    console.log("Previous week range:", startDateP, "to", endDateP);
-
-    const totalP = await Expense.aggregate([
-        { 
-            $match: { 
-                userId: new mongoose.Types.ObjectId(userId), 
-                createdAt: { $gte: startDateP, $lte: endDateP } 
-            }
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: {
+          $sum: "$rs",
         },
-        { $group: { _id: null, total: { $sum: "$rs" } } }
-    ]);
+      },
+    },
+  ]);
 
-    // Payment method breakdown
-    const topPaymentMethodUsed = await Expense.aggregate([
-        { 
-            $match: { 
-                userId: new mongoose.Types.ObjectId(userId), 
-                createdAt: { $gte: startDate, $lte: endDate } 
-            }
+  // ==========================
+  // Previous Week Total
+  // ==========================
+
+  const previousWeek = await Expense.aggregate([
+    {
+      $match: {
+        userId: objectId,
+        createdAt: {
+          $gte: previousStart,
+          $lte: previousEnd,
         },
-        { $group: { _id: "$paymentMethod", amount: { $sum: "$rs" } } },
-        { $sort: { amount: -1 } },
-    ]);
-
-    // Daily breakdown
-    const breakdown = await Expense.aggregate([
-        { 
-            $match: { 
-                userId: new mongoose.Types.ObjectId(userId), 
-                createdAt: { $gte: startDate, $lte: endDate } 
-            }
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: {
+          $sum: "$rs",
         },
-        {
-            $group: {
-                _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-                amount: { $sum: "$rs" }
-            }
+      },
+    },
+  ]);
+
+  // ==========================
+  // Payment Method Breakdown
+  // ==========================
+
+  const payMethodUsedBreakdown = await Expense.aggregate([
+    {
+      $match: {
+        userId: objectId,
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
         },
-        { $sort: { _id: 1 } } // Sort chronologically
-    ]);
+      },
+    },
+    {
+      $group: {
+        _id: "$paymentMethod",
+        amount: {
+          $sum: "$rs",
+        },
+      },
+    },
+    {
+      $sort: {
+        amount: -1,
+      },
+    },
+  ]);
 
-    // Recent transactions
-    const recent = await Expense.find({ userId })
-        .sort({ createdAt: -1 })
-        .limit(5)
-        .select("title description rs createdAt paymentMethod");
+  // ==========================
+  // Daily Breakdown
+  // ==========================
 
-    return {
-        period: "Last 7 days",
-        currency: "INR",
-        totalForTheWeek: total[0]?.total || 0,
-        totalPreviousWeek: totalP[0]?.total || 0,
-        payMethodUsedBreakdown: topPaymentMethodUsed,
-        dailyBreakdown: breakdown,
-        recentTransactions: recent,
-        weeklyBudget: 3000,
-        locale: "en-IN"
-    };
+  const dailyBreakdown = await Expense.aggregate([
+    {
+      $match: {
+        userId: objectId,
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: {
+            format: "%Y-%m-%d",
+            date: "$createdAt",
+          },
+        },
+        amount: {
+          $sum: "$rs",
+        },
+      },
+    },
+    {
+      $sort: {
+        _id: 1,
+      },
+    },
+  ]);
+
+  // ==========================
+  // Recent Transactions
+  // ==========================
+
+  const recentTransactions = await Expense.find({
+    userId: objectId,
+  })
+    .sort({
+      createdAt: -1,
+    })
+    .limit(5)
+    .select(
+      "_id title description rs paymentMethod createdAt"
+    );
+
+  return {
+    currency: "INR",
+
+    totalForTheWeek:
+      currentWeek[0]?.total || 0,
+
+    totalPreviousWeek:
+      previousWeek[0]?.total || 0,
+
+    payMethodUsedBreakdown,
+
+    dailyBreakdown,
+
+    recentTransactions,
+
+    weeklyBudget: 3000,
+  };
 };

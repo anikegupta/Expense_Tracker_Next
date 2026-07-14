@@ -1,5 +1,6 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import HiddenPinModal from "./user/HiddenPinModal";
 import React, { useState } from "react";
 import {
   FaHome,
@@ -19,6 +20,12 @@ function SideMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const location = usePathname();
   const { user, logoutUser } = useAuthContext();
+  const router = useRouter();
+const [authorized, setAuthorized] = useState(false);
+
+const [showPinModal, setShowPinModal] = useState(false);
+
+const [checkingPin, setCheckingPin] = useState(true);
 
   const menuItems = [
     { name: "Home", icon: <FaHome />, path: "/dashboard" },
@@ -28,7 +35,50 @@ function SideMenu() {
     { name: "Recycle Bin", icon: <MdDelete />, path: "/dashboard/recycle-bin" },
     { name: "Hidden Expenses", icon: <Wallet />, path: "/dashboard/hidden-expenses" },
   ];
+const handleHiddenExpense = () => {
+  const expiry = localStorage.getItem(
+    "hiddenExpenseVerifiedUntil"
+  );
 
+  if (expiry && Number(expiry) > Date.now()) {
+    router.push("/dashboard/hidden-expenses");
+    setIsOpen(false);
+    return;
+  }
+
+  // setShowPinModal(true);
+};
+// if (checkingPin) {
+//   return (
+//     <div className="flex items-center justify-center h-screen">
+//       <h2 className="text-xl font-semibold">
+//         Checking Security...
+//       </h2>
+//     </div>
+//   );
+// }
+// if (!authorized) {
+//   return (
+//     <>
+//       <HiddenPinModal
+//         open={showPinModal}
+//         onClose={() => {
+//           router.push("/dashboard");
+//         }}
+//         onSuccess={() => {
+//           setAuthorized(true);
+//           setShowPinModal(false);
+//         }}
+//       />
+
+//       <div className="flex items-center justify-center h-screen">
+//         <h2 className="text-lg">
+//           Hidden Expenses Locked
+//         </h2>
+//       </div>
+//     </>
+//   );
+// }
   return (
     <>
       {/* Toggle Button */}

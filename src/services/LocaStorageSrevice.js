@@ -1,8 +1,5 @@
 import { isTokenExpired } from "../utils/jwtExpiry";
 
-// Next.js-safe localStorage service
-// All functions check for window before accessing localStorage
-
 export const saveLoginData = (userData) => {
   if (typeof window !== "undefined") {
     localStorage.setItem("userData", JSON.stringify(userData));

@@ -1,71 +1,145 @@
-import { NextResponse } from 'next/server';
-import { openRouterClient  } from '@/lib/config/geminiClient';
-import { connectDB } from '@/lib/mongodb';
-import { getExpenseData } from '@/lib/utils/expenseHelper';
-import { authMiddleware } from '@/middleware/auth';
+import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongodb";
+import { getExpenseData } from "@/lib/utils/expenseHelper";
+import { authMiddleware } from "@/middleware/auth";
 
-async function getSuggestionsHandler(req) {
+async function handler(req) {
   try {
-    const userId = req.userId;
-    console.log('Fetching suggestions for user:', userId);
-
     await connectDB();
+
+    const userId = req.userId;
+
     const data = await getExpenseData(userId);
 
-    const systemPrompt = `
-You are a concise financial dashboard assistant. 
-Always return **only valid JSON**, no markdown, no explanations.
-Follow schema exactly.
-    `;
+    const current = data.totalForTheWeek;
+    const previous = data.totalPreviousWeek;
 
-    const userPrompt = `
-The user's last 7 days expense data:
-${JSON.stringify(data, null, 2)}
+    let trend = "flat";
+    let pct = 0;
 
-Now return an object matching this schema:
-{
-  "headline": string,
-  "total": number,
-  "currency": string,
-  "trend": "up" | "down" | "flat",
-  "pct_change": number,
-  "topPaymentMethodUsed": { "name": string, "amount": number, "pct": number },
-  "peakDay": { "date": "YYYY-MM-DD", "amount": number },
-  "chart": { "type": "sparkline", "series": [number,...], "labels": ["YYYY-MM-DD", ...] },
-  "paymentMethodBreakdown": [ { "method": string, "amount": number } ],
-  "recentTransactions": [ { "id": string, "title": string, "description": string, "amount": number, "date": "YYYY-MM-DD", "paymentmethod": string } ],
-  "action": { "label": string, "url": string, "tip": string },
-  "severity": "ok" | "caution" | "alert"
-}
-`;
+    if (previous === 0 && current > 0) {
+      trend = "up";
+      pct = 100;
+    } else if (previous > 0) {
+      pct = Number(
+        (((current - previous) / previous) * 100).toFixed(1)
+      );
 
-    const responseText = await openRouterClient.generate({
-      prompt: userPrompt,
-      systemPrompt,
+      if (pct > 0) trend = "up";
+      else if (pct < 0) trend = "down";
+    }
+
+    const paymentBreakdown =
+      data.payMethodUsedBreakdown.map((item) => ({
+        method: item._id || "Unknown",
+        amount: item.amount,
+      }));
+
+    const totalPayment = paymentBreakdown.reduce(
+      (sum, item) => sum + item.amount,
+      0
+    );
+
+    const top = paymentBreakdown[0] || {
+      method: "None",
+      amount: 0,
+    };
+
+    const chartLabels = [];
+    const chartSeries = [];
+
+    data.dailyBreakdown.forEach((d) => {
+      chartLabels.push(d._id);
+      chartSeries.push(d.amount);
     });
 
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error("Gemini suggestion output:", responseText);
-      throw new Error("Gemini did not return valid JSON");
-    }
-    let result;
-    try {
-      result = JSON.parse(jsonMatch[0]);
-    } catch (parseError) {
-      console.error("Failed to parse Gemini JSON:", jsonMatch[0]);
-      throw new Error("Failed to parse JSON returned by Gemini");
-    }
+    let peakDay = {
+      date: "",
+      amount: 0,
+    };
 
-    return NextResponse.json(result);
-  } catch (error) {
-    console.error("Error in getSuggestions:", error);
+    data.dailyBreakdown.forEach((d) => {
+      if (d.amount > peakDay.amount) {
+        peakDay = {
+          date: d._id,
+          amount: d.amount,
+        };
+      }
+    });
+
+    return NextResponse.json({
+      headline:
+        current > previous
+          ? "You spent more than last week"
+          : current < previous
+          ? "Great! Spending reduced"
+          : "Spending unchanged",
+
+      total: current,
+
+      currency: "INR",
+
+      trend,
+
+      pct_change: Math.abs(pct),
+
+      topPaymentMethodUsed: {
+        name: top.method,
+        amount: top.amount,
+        pct:
+          totalPayment === 0
+            ? 0
+            : Number(
+                ((top.amount / totalPayment) * 100).toFixed(1)
+              ),
+      },
+
+      peakDay,
+
+      chart: {
+        type: "sparkline",
+        labels: chartLabels,
+        series: chartSeries,
+      },
+
+      paymentMethodBreakdown: paymentBreakdown,
+
+      recentTransactions: data.recentTransactions.map((t) => ({
+        id: t._id,
+        title: t.title,
+        description: t.description,
+        amount: t.rs,
+        date: t.createdAt,
+        paymentmethod: t.paymentMethod,
+      })),
+
+      action: {
+        label: "View Expenses",
+        url: "/dashboard/expenses",
+        tip:
+          current > data.weeklyBudget
+            ? "Weekly budget exceeded."
+            : "You're within your weekly budget.",
+      },
+
+      severity:
+        current > data.weeklyBudget
+          ? "alert"
+          : current > data.weeklyBudget * 0.8
+          ? "caution"
+          : "ok",
+    });
+  } catch (err) {
+    console.error(err);
+
     return NextResponse.json(
-      { error: "AI suggestion failed", details: error.message },
-      { status: 500 }
+      {
+        message: "Dashboard error",
+      },
+      {
+        status: 500,
+      }
     );
- 
   }
-};
-
-export const POST = authMiddleware(getSuggestionsHandler);
+}
+export const POST = authMiddleware(handler);

@@ -135,3 +135,75 @@ export const updateExpense = async (expenseId, expenseData) => {
 
   return response.json();
 };
+
+export const hiddenPinStatus = async () => {
+  const token = getAccessTokenFromLocalStorage();
+
+  const response = await fetch("/api/user/hidden-pin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      action: "status",
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data.hasPin;
+};
+
+export const createOrVerifyHiddenPin = async (pin) => {
+  const token = getAccessTokenFromLocalStorage();
+
+  const response = await fetch("/api/user/hidden-pin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      action: "verify",
+      pin,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
+};
+
+export const changeHiddenPin = async (currentPin, newPin) => {
+  const token = getAccessTokenFromLocalStorage();
+
+  const response = await fetch("/api/user/hidden-pin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      action: "change",
+      currentPin,
+      newPin,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
+};

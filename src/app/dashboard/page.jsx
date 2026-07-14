@@ -63,29 +63,42 @@ export default function UserHome() {
         setLoadingDashboardData(false);
       }
     }
-
-    if (!dashboardData && !loadingDashboardData && !dashboardError) {
-      setLoadingDashboardData(true);
       loadDashboardData();
-    }
-  }, [dashboardData, loadingDashboardData, dashboardError, logoutUser, setDashboardData, setLoadingDashboardData]);
+  }, []);
+
+   const data = dashboardData || {
+  headline: "",
+  total: 0,
+  currency: "INR",
+  trend: "flat",
+  pct_change: 0,
+  topPaymentMethodUsed: {
+    name: "-",
+    amount: 0,
+    pct: 0,
+  },
+  peakDay: {
+    date: "",
+    amount: 0,
+  },
+  chart: {
+    labels: [],
+    series: [],
+  },
+  paymentMethodBreakdown: [],
+  recentTransactions: [],
+  action: {
+    label: "View Expenses",
+    tip: "",
+    url: "/dashboard/expenses",
+  },
+  severity: "ok",
+};
 
   if (loadingDashboardData) {
     return <DashboardSkeleton />;
   }
 
-  if (!dashboardData) {
-    return (
-      <div className="px-4 md:px-6 lg:px-8 max-w-7xl mx-auto py-10">
-        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-6 text-rose-700">
-          <h2 className="text-xl font-semibold mb-2">Unable to load dashboard</h2>
-          <p>{dashboardError || "Please check your network connection or try again later."}</p>
-        </div>
-      </div>
-    );
-  }
-
-  const data = dashboardData;
   const isUp = data?.trend === "up";
   const currency = data?.currency ?? "INR";
 

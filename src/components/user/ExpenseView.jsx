@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import { BsPencilSquare } from "react-icons/bs";
-import { MdDelete, MdPhoneIphone, MdAccountBalance } from "react-icons/md";
+import { MdDelete, MdPhoneIphone,   MdVisibility, MdAccountBalance } from "react-icons/md";
 import { FaMoneyBillWave, FaCreditCard, FaWallet } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { deleteExpenses } from "@/services/ExpenseService";
+import { deleteExpenses } from "@/services/ExpenseService"; 
 import UpdateExpenseModal from "./UpdateExpenseModal";
+import { updateExpense} from "@/services/ExpenseService";
 
 function getPaymentIcon(method) {
   switch ((method || "").toLowerCase()) {
@@ -24,12 +25,46 @@ function getPaymentIcon(method) {
   }
 }
 
+
+
 function ExpenseView({ onUpdateExpense, removeExpense, expense }) {
   const formattedDate = new Date(expense.createdAt).toLocaleDateString("en-IN", {
     day: "numeric",
     month: "short",
     year: "numeric",
   });
+async function handleHide() {
+  const result = await Swal.fire({
+    title: "Hide this expense?",
+    text: "You can restore it later from Hidden Expenses.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#06b6d4",
+    cancelButtonColor: "#6b7280",
+    confirmButtonText: "Hide",
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    const payload = {
+      title: expense.title,
+      description: expense.description,
+      rs: Number(expense.rs),
+      paymentMethod: expense.paymentMethod,
+      hidden: true,
+    };
+
+    const updatedExpense = await updateExpense(expense._id, payload);
+
+    removeExpense(expense._id);
+
+    toast.success("Expense moved to Hidden Expenses");
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to hide expense");
+  }
+}
 
   async function handleDelete() {
     const result = await Swal.fire({
@@ -66,7 +101,12 @@ function ExpenseView({ onUpdateExpense, removeExpense, expense }) {
           className="h-14 w-14 rounded-2xl object-cover"
         />
         <div className="flex gap-2">
-          <MdDelete
+          <MdVisibility
+     onClick={handleHide}
+    className="cursor-pointer rounded-full bg-white/10 p-2 h-8 w-8 text-slate-100 transition hover:bg-emerald-500 hover:text-white"
+    size={20}
+  />
+  <MdDelete
             onClick={handleDelete}
             className="cursor-pointer rounded-full bg-white/10 p-2 h-8 w-8 text-slate-100 transition hover:bg-red-500 hover:text-white"
             size={20}

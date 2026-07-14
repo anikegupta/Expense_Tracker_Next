@@ -27,10 +27,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  hiddenExpensePin: {
+    type: String,
+    default: null,
+}
 });
 
 userSchema.pre('save', async function (next) {
   const user = this;
+  if (
+    user.isModified("hiddenExpensePin") &&
+    user.hiddenExpensePin
+) {
+    const salt = await bcrypt.genSalt(10);
+    user.hiddenExpensePin = await bcrypt.hash(
+        user.hiddenExpensePin,
+        salt
+    );
+}
   if (!user.isModified('password')) {
     return next();
   }

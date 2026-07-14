@@ -1,6 +1,5 @@
-import jwt from 'jsonwebtoken';;
-
 import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';;
 const ACCESS_SECRET = process.env.ACCESS_SECRET;
 export function authMiddleware(handler) {
   return async (req, next) => {
