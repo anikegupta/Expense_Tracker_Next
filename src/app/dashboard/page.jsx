@@ -268,19 +268,18 @@ export default function UserHome() {
           transition={{ duration: 0.25, delay: 0.15 }}
         >
           <div>
-            <div
-              className={`inline-block text-xs px-2 py-1 rounded-md mb-3 ${getSeverityBadge(
-                data.severity
-              )}`}
-            >
-              {capitalize(data.severity ?? "info")}
-            </div>
+            
             <h3 className="font-semibold text-lg">
-              {data.action?.label ?? "Take Action"}
+              { "Take Action"}
             </h3>
             <p className="text-sm text-gray-600 mt-1">
-              {data.action?.tip ?? "Review your budget regularly."}
+              { "Review your budget regularly."}
             </p>
+            <p className="text-m text-gray-900 mt-10 ">
+    Small financial decisions made consistently can have a significant impact
+    over time. Monitor your spending, stay within your budget, and make
+    adjustments whenever your expenses begin to exceed your planned limits.
+  </p>
           </div>
           <Link
             href="/dashboard/expenses"
